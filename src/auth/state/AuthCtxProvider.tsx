@@ -1,7 +1,5 @@
 import React, { createContext, useReducer, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-  
-  // Project dependencies
 import { AuthActionEnum } from "./AuthActions";
 import authReducer, { AuthState, defaultAuthState } from "./AuthReducer";
   
@@ -30,8 +28,9 @@ import authReducer, { AuthState, defaultAuthState } from "./AuthReducer";
     globalLogOutDispatch: () => {},
   });
   
-  export const AuthContextProvider = ({ children }: AuthProviderProps) => {
-  
+  export const AuthContextProvider = (props: AuthProviderProps) => {
+    
+    const { children } = props;
     const [authState, authDispatch] = useReducer(authReducer, defaultAuthState);
     const navigate = useNavigate();
   
