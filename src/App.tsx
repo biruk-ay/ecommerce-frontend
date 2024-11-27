@@ -3,6 +3,7 @@ import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 import AuthContext from "./auth/state/AuthCtxProvider";
 import { useContext } from "react";
 import Auth from "./components/Auth";
+import Resource from "./components/Resource";
 
 function App() {
   const { authState } = useContext(AuthContext);
@@ -24,6 +25,9 @@ function App() {
             <Route path="register" element={<Auth />} />
             <Route path="login" element={<Auth />} />
           </Route>
+        )}
+         {authState.isLoggedIn && (
+          <Route path="resource" element={<Resource />} />
         )}
       </Routes>
     </div>
