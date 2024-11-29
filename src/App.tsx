@@ -4,6 +4,7 @@ import AuthContext from "./auth/state/AuthCtxProvider";
 import { useContext } from "react";
 import Auth from "./components/Auth";
 import Resource from "./components/Resource";
+import '../global.css';
 
 function App() {
   const { authState } = useContext(AuthContext);

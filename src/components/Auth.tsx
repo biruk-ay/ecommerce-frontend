@@ -57,7 +57,7 @@ const Auth = () => {
 
   return (
     <>
-      <h2>{isLogin ? 'Log In' : 'Sign Up'}</h2>
+      {/* <h2>{isLogin ? 'Log In' : 'Sign Up'}</h2> */}
       {
         isLogin
           ? <LoginForm onSubmit={authHandler} />
