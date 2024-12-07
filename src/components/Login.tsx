@@ -1,6 +1,7 @@
 import { FormEventHandler } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
+import Footer from "./Footer";
 
 type Props = {
   onSubmit: FormEventHandler<HTMLFormElement>;
@@ -10,7 +11,7 @@ const LoginForm = (props: Props) => {
     const { onSubmit } = props;
     return (
       <>
-      <Header></Header>
+      <Header />
       <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
@@ -36,6 +37,7 @@ const LoginForm = (props: Props) => {
           Don't have an account? Sign up
         </Link>
       </form>
+      <Footer />
       </>
     );
   };
