@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="bg-primary flex flex-col sm:flex-row fixed bottom-0 mt-1 justify-evenly items-center w-full text-white font-roboto">
+    <footer className="bg-primary flex flex-col sm:flex-row bottom-0 mt-1 justify-evenly items-center w-full text-white font-roboto">
       <div className="flex-col mr-80 mt-2 sm:mr-0 sm:mt-0">
         <a href="/">
           <img className="flex justify-start sm:self-auto h-11 w-11 ml-3" src="../../logo.png" alt="Company Logo"></img>

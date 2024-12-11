@@ -7,7 +7,7 @@ const Header = () => {
     const { authState } = useContext(AuthContext);
     const { globalLogOutDispatch } = useContext(authCtx);
     return (
-        <header className="bg-primary flex fixed top-0 w-full justify-evenly items-center text-white">
+        <header className="bg-primary flex top-0 w-full justify-evenly items-center text-white">
             <div className="flex justify-between mt-2 mb-2">
                 <a href="/">
                     <img className="h-5 w-5 sm:h-11 sm:w-11 sm:mr-4" src="../../logo.png" alt="Company Logo"></img>

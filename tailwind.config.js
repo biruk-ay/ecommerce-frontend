@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         primary: '#421C54',
-        search: ''
+        search: '',
+        login: '#825792'
       },
       fontFamily: {
         cursive: ['Cursive'],

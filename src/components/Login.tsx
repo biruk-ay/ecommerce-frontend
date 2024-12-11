@@ -12,7 +12,22 @@ const LoginForm = (props: Props) => {
     return (
       <>
       <Header />
-      <form onSubmit={onSubmit}>
+      <div className="flex w-full items-center h-screen justify-center">
+          <div className="bg-login bg-opacity-10 flex flex-row items-center justify-center w-1/2 mb-24 h-3/5 rounded-3xl shadow-lg">
+              <div className="bg-[#825792] flex flex-col justify-center items-center bg-opacity-5 w-1/2 h-4/5 ml-6 rounded-3xl">
+                <div className="text-primary text-3xl font-extrabold font-roboto">
+                  Login In
+                </div>
+                <div className="text-black text-xl font-bold font-roboto">
+                  Name
+                </div>
+              </div>
+              <div className="bg-[#652385] bg-opacity-40 w-1/2 h-3/5 mr-6 rounded-3xl">
+                Sign Up
+              </div>
+          </div>
+      </div>
+      {/* <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -36,7 +51,7 @@ const LoginForm = (props: Props) => {
         <Link to={"/user/register"}>
           Don't have an account? Sign up
         </Link>
-      </form>
+      </form> */}
       <Footer />
       </>
     );
