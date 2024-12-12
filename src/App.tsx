@@ -30,6 +30,8 @@ function App() {
          {authState.isLoggedIn && (
           <Route path="resource" element={<Resource />} />
         )}
+        <Route path="/" element={<Auth />} />
+        <Route path="*" element={<Auth />} />
       </Routes>
     </div>
   );
