@@ -25,6 +25,7 @@ const Auth = () => {
         name: authData.user.name,
         email: authData.user.email,
       });
+      console.log(authData)
     }
   }, [authData, globalLogInDispatch]);
 
