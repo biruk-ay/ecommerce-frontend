@@ -3,7 +3,8 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthContextProvider } from './auth/state/AuthCtxProvider';
+import { Provider } from 'react-redux';
+import { store } from './apps/store/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,9 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthContextProvider>
+      <Provider store={store}>
         <App />
-      </AuthContextProvider>
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );

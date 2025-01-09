@@ -1,64 +1,33 @@
-import { FormEventHandler } from "react";
-import { Link } from "react-router-dom";
-import Header from "./Header";
-import Footer from "./Footer";
-type Props = {
-  onSubmit: FormEventHandler<HTMLFormElement>;
-};
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import Header from "../../../../components/Header";
+import Footer from "../../../../components/Footer";
+import { useAppDispatch } from "../../../store/store";
+import { login } from "../../application/slice/AuthSlice";
 
-const RegisterForm = (props: Props) => {
-  const { onSubmit } = props;
-  return (
-    <>
+const LoginForm = () => {
+  const navigator = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const handleLogin = (evt) => {
+    evt.preventDefault();
+    dispatch(login({name: email, password: password}));
+    navigator('/resource')
+  }
+  
+    return (
+      <>
       <Header />
       <div className="flex w-full items-center h-screen justify-center">
-        <div className="bg-login bg-opacity-10 flex flex-col sm:flex-row items-center justify-center w-full sm:w-1/2 mb-24 h-4/5 sm:h-3/5 rounded-3xl shadow-lg">
-          <div className="bg-[#825792] flex flex-col justify-center items-center bg-opacity-5 w-11/12 sm:w-1/2 h-4/5 ml-0 sm:ml-6 rounded-3xl">
+        <div className="bg-login bg-opacity-10 flex flex-col sm:flex-row-reverse items-center justify-center w-full sm:w-1/2 mb-24 h-4/5 sm:h-3/5 rounded-3xl shadow-lg">
+          <div className="bg-[#825792] flex flex-col justify-center items-center bg-opacity-5 w-11/12 sm:w-1/2 h-4/5 ml-0 sm:mr-6 rounded-3xl">
             <form
               className="flex flex-col justify-stretch items-center"
-              onSubmit={onSubmit}
+              onSubmit={handleLogin}
             >
               <div className="text-primary text-3xl font-extrabold font-roboto mb-4">
-                Sign Up
-              </div>
-              <div className="flex flex-col justify-center items-center mb-4">
-                <div className="flex flex-row justify-evenly mb-1">
-                  <label
-                    className="text-black text-xl font-bold font-roboto mr-28"
-                    htmlFor="name"
-                  >
-                    Name
-                  </label>
-                  <svg
-                    className="self-end w-5 h-5 ml-32 mb-1"
-                    width="80px"
-                    height="80px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12 6C9.79086 6 8 7.79086 8 10C8 12.2091 9.79086 14 12 14C14.2091 14 16 12.2091 16 10C16 7.79086 14.2091 6 12 6Z"
-                      fill="#000000"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 14.0289 19.2447 15.8813 18.0001 17.2916C16.4085 15.8674 14.3052 15 12.0002 15C9.69511 15 7.5917 15.8675 6.00015 17.2918C4.75533 15.8815 4 14.029 4 12Z"
-                      fill="#000000"
-                    />
-                  </svg>
-                </div>
-                <input
-                  className="w-80 bg-[#825792] bg-opacity-5 border border-slate-300 rounded-md py-1 pl-1"
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Shegitu"
-                  required
-                ></input>
+                Log In
               </div>
               <div className="flex flex-col justify-center items-center mb-2">
                 <div className="flex flex-row justify-evenly mb-1">
@@ -95,6 +64,7 @@ const RegisterForm = (props: Props) => {
                   type="email"
                   placeholder="Email Address"
                   required
+                  onChange={e => setEmail(e.target.value)}
                 ></input>
               </div>
               <div className="flex flex-col justify-center items-center mb-6">
@@ -129,17 +99,18 @@ const RegisterForm = (props: Props) => {
                   type="password"
                   placeholder="Password"
                   required
+                  onChange={e => setPassword(e.target.value)}
                 ></input>
               </div>
               <button
                 className="w-4/5 h-12 bg-primary text-white text-xl font-bold font-roboto rounded-3xl"
                 type="submit"
-              >
-                Sign Up
+                >
+                Log In
               </button>
             </form>
           </div>
-          <div className="bg-[#652385] bg-opacity-40 flex flex-col justify-center items-center w-11/12 sm:w-1/2 h-3/5 mr-0 sm:mr-6 rounded-3xl">
+          <div className="bg-[#652385] bg-opacity-40 flex flex-col justify-center items-center w-11/12 sm:w-1/2 h-3/5 mr-0 sm:ml-6 rounded-3xl">
             <img
               className="h-11 w-11 mr-4"
               src="../../logo.png"
@@ -149,24 +120,23 @@ const RegisterForm = (props: Props) => {
               gebeya
             </div>
             <div className="text-primary font-roboto font-extrabold text-2xl mb-4">
-              Welcome Back!
+              Welcome to gebeya
             </div>
             <p className="text-primary font-roboto font-bold text-center text-sm mb-5 mr-5 ml-5">
-              Please log in with your personal information to keep connected
-              with us
+              Enjoy shopping with us!
             </p>
             <Link
               className="flex w-3/5 h-12 bg-primary text-white text-xl font-bold justify-center font-roboto rounded-3xl"
-              to={"/user/login"}
+              to={"/user/Register"}
             >
-              <button>Log In</button>
+              <button>Sign Up</button>
             </Link>
           </div>
         </div>
       </div>
       <Footer />
-    </>
-  );
-};
-
-export default RegisterForm;
+      </>
+    );
+  };
+  
+  export default LoginForm;

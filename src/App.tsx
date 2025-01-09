@@ -1,37 +1,46 @@
 import "./App.css";
-import { Route, Routes, Navigate, useLocation } from "react-router-dom";
-import AuthContext from "./auth/state/AuthCtxProvider";
-import { useContext } from "react";
-import Auth from "./components/Auth";
 import Resource from "./components/Resource";
-import '../global.css';
+import "../global.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import LoginForm from "./apps/auth/presentation/pages/Login";
+import { useAppSelector } from "./apps/store/store";
+import {
+  selectUserEmail,
+  selectUserName,
+  selectUserToken,
+} from "./apps/auth/application/slice/AuthSlice";
+import RegisterForm from "./apps/auth/presentation/pages/Register";
+
+const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
+  const navigator = useNavigate();
+  const username = useAppSelector(selectUserName);
+  const email = useAppSelector(selectUserEmail);
+  const token = useAppSelector(selectUserToken);
+
+  if ((!token) && (!email) && (!username)) {
+    return navigator("/user/login");
+  }
+  return children;
+};
+
 
 function App() {
-  const { authState } = useContext(AuthContext);
-  const location = useLocation();
-
   return (
+
     <div className="App">
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={authState.isLoggedIn ? location.pathname : "/user/login"}
-            />
-          }
+        <Route path="/user/login" element={<LoginForm />} />
+        <Route path="/user/register" element={<RegisterForm />} />
+        <Route 
+          path="/*"
+          element= {
+            <ProtectedRoute>
+              <Routes>
+                <Route path="/resource" element={<Resource />} />
+              </Routes>
+            </ProtectedRoute>
+          } 
         />
-        {!authState.isLoggedIn && (
-          <Route path="user">
-            <Route path="register" element={<Auth />} />
-            <Route path="login" element={<Auth />} />
-          </Route>
-        )}
-         {authState.isLoggedIn && (
-          <Route path="resource" element={<Resource />} />
-        )}
-        <Route path="/" element={<Auth />} />
-        <Route path="*" element={<Auth />} />
       </Routes>
     </div>
   );
