@@ -1,8 +1,15 @@
-import { Link } from "react-router-dom";
-import { useAppSelector } from "../apps/store/store";
-import { selectUserName } from "../apps/auth/application/slice/AuthSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../apps/store/store";
+import { logout, selectUserName } from "../apps/auth/application/slice/AuthSlice";
 const Header = () => {
+  const navigator = useNavigate();
   const username = useAppSelector(selectUserName);
+  const dispatch = useAppDispatch();
+  const handleLogout = (evt) => {
+    evt.preventDefault();
+    dispatch(logout());
+    navigator("/user/login");
+  };
   return (
     <header className="bg-primary flex top-0 w-full justify-evenly items-center text-white">
       <div className="flex justify-between mt-2 mb-2">
@@ -68,7 +75,10 @@ const Header = () => {
 
       <div className="flex auto gap-1 text-sm sm:text-lg sm:gap-4 font-roboto font-bold">
         {username ? (
+          <>
           <p>Welcome, {username}</p>
+          <button className="hover:underline" onClick={handleLogout}>Logout</button>
+          </>
         ) : (
           <>
             <Link to={"/user/login"} className="hover:underline">

@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const handleLogin = (evt) => {
+  const handleLogin = (evt: unknown) => {
     evt.preventDefault();
     dispatch(login({name: email, password: password}));
     navigator('/resource')

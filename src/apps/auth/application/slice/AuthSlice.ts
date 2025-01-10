@@ -50,7 +50,16 @@ export const register = createAsyncThunk<Omit<AuthState, "isLoggedIn" | "status"
 export const AuthSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        logout(state){
+            state.isLoggedIn = false
+            state.name = null
+            state.email = null
+            state.token = null
+            state.status = SMStatus.none
+            state.error = undefined
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
@@ -88,6 +97,7 @@ export const AuthSlice = createSlice({
 )
 
 export default AuthSlice.reducer;
+export const { logout } = AuthSlice.actions;
 
 export const selectUserEmail = (state: RootState) => state.auth.email;
 export const selectUserName = (state: RootState) => state.auth.name;
