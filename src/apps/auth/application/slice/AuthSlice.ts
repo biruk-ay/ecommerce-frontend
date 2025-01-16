@@ -3,6 +3,8 @@ import AuthState from "../states/AuthState";
 import AuthProvider from "../../di/authProvider";
 import SMStatus from "../../../../lib/sm/state/smStatus";
 import type { RootState } from "../../../store/store";
+
+
 const initialState: AuthState = {
     isLoggedIn: false,
     name: null,
@@ -11,6 +13,8 @@ const initialState: AuthState = {
     status: SMStatus.none,
     error: undefined
 }
+
+
 
 export const login = createAsyncThunk<Omit<AuthState, "isLoggedIn" | "status" | "error">, {name: string; password: string}>(
     "auth/login",

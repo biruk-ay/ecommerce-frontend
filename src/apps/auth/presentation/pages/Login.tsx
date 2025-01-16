@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../../../../components/Header";
 import Footer from "../../../../components/Footer";
 import { useAppDispatch } from "../../../store/store";
@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
-  const handleLogin = (evt: unknown) => {
+  const handleLogin = (evt: React.FormEvent) => {
     evt.preventDefault();
     dispatch(login({name: email, password: password}));
     navigator('/resource')

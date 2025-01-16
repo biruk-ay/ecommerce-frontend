@@ -1,4 +1,5 @@
 import "./App.css";
+import React from "react";
 import Resource from "./components/Resource";
 import "../global.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -20,7 +21,7 @@ const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   if ((!token) && (!email) && (!username)) {
     return navigator("/user/login");
   }
-  return children;
+  return <>{children}</>
 };
 
 

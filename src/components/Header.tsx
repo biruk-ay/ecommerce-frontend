@@ -1,11 +1,14 @@
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../apps/store/store";
 import { logout, selectUserName } from "../apps/auth/application/slice/AuthSlice";
+
+
 const Header = () => {
   const navigator = useNavigate();
   const username = useAppSelector(selectUserName);
   const dispatch = useAppDispatch();
-  const handleLogout = (evt) => {
+  const handleLogout = (evt: React.FormEvent) => {
     evt.preventDefault();
     dispatch(logout());
     navigator("/user/login");
@@ -76,7 +79,7 @@ const Header = () => {
       <div className="flex auto gap-1 text-sm sm:text-lg sm:gap-4 font-roboto font-bold">
         {username ? (
           <>
-          <p>Welcome, {username}</p>
+          <p>Welcome, {username}!</p>
           <button className="hover:underline" onClick={handleLogout}>Logout</button>
           </>
         ) : (
