@@ -56,7 +56,7 @@ const RegisterForm = (props: Props) => {
                   id="name"
                   name="name"
                   type="text"
-                  placeholder="Shegitu"
+                  placeholder="Name"
                   required
                 ></input>
               </div>

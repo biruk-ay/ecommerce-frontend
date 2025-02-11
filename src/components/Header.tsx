@@ -2,12 +2,14 @@ import { useContext } from "react";
 import AuthContext from "../auth/state/AuthCtxProvider";
 import { Link } from "react-router-dom";
 import authCtx from "../auth/state/AuthCtxProvider";
-
+import cartIcon from "../assets/Icon.svg"
+import { CartContext } from "../contexts/CartContext";
 const Header = () => {
+  
     const { authState } = useContext(AuthContext);
     const { globalLogOutDispatch } = useContext(authCtx);
     return (
-        <header className="bg-primary flex top-0 w-full justify-evenly items-center text-white">
+        <header className="bg-primary flex  w-full justify-evenly items-center sticky top-0 z-10 border-t  text-white">
             <div className="flex justify-between mt-2 mb-2">
                 <a href="/">
                     <img className="h-5 w-5 sm:h-11 sm:w-11 sm:mr-4" src="../../logo.png" alt="Company Logo"></img>
@@ -37,11 +39,15 @@ const Header = () => {
                             <>
                                 <span>Welcome, {authState.name}!</span>
                                 <button onClick={() => globalLogOutDispatch()}></button>
+                                <Link to={"/"} ><img className="hover:underline" src={cartIcon}>
+                               </img> </Link> 
+                               
                             </>
                         ) : (
                             <>
-                                <Link to={"/user/login"} className="hover:underline">Login</Link>
-                                <Link to={"/user/register"} className="hover:underline">Register</Link>
+                                <Link to={"/user/login"} className="hover:underline">SignIn /</Link>
+                                <Link to={"/user/register"} className="hover:underline">SignUp</Link>
+                              
                             </>
                         )
 
