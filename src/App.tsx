@@ -11,6 +11,7 @@ import {
   selectUserToken,
 } from "./apps/auth/application/slice/AuthSlice";
 import RegisterForm from "./apps/auth/presentation/pages/Register";
+import Admin from "./apps/admin/presentation/pages/Admin";
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   const navigator = useNavigate();
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/user/login" element={<LoginForm />} />
         <Route path="/user/register" element={<RegisterForm />} />
+        <Route path="/admin" element={<Admin />} />
         <Route 
           path="/*"
           element= {

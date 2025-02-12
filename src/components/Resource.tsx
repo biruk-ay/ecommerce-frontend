@@ -5,6 +5,7 @@ import { selectUserName } from "../apps/auth/application/slice/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import StorageProvider from "../di/StorageProvider";
+import Admin from "../apps/admin/presentation/pages/Admin";
 
 
 const Resource = () => {
@@ -38,6 +39,7 @@ const Resource = () => {
       <button onClick={handleUpload}>upload</button>
     </div>
     </div>
+    <Admin />
     <Footer />
     </>
   );
