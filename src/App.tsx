@@ -39,9 +39,8 @@ function App() {
   // const location = useLocation();
   // const owner = "owner"; // Replace with actual owner logic as needed
   const ownerId = 'YOUR_USER_ID_HERE';
+  
   return (
-
-    
     <div className="App">
       <CartProvider>
       <Routes>

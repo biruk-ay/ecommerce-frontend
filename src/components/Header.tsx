@@ -82,8 +82,7 @@ const Header = () => {
           <>
           <p>Welcome, {username}!</p>
           <button className="hover:underline" onClick={handleLogout}>Logout</button>
-          <Link to={"/"} ><img className="hover:underline" src={cartIcon}>
-                               </img> </Link> 
+          <Link to={"/"} ><img className="hover:underline" src={cartIcon}></img> </Link> 
           </>
         ) : (
           <>
