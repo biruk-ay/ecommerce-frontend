@@ -5,13 +5,16 @@ import "../global.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginForm from "./apps/auth/presentation/pages/Login";
 import { useAppSelector } from "./apps/store/store";
-import {
-  selectUserEmail,
-  selectUserName,
-  selectUserToken,
-} from "./apps/auth/application/slice/AuthSlice";
+import { selectUserEmail, selectUserName, selectUserToken } from "./apps/auth/application/slice/AuthSlice";
 import RegisterForm from "./apps/auth/presentation/pages/Register";
 import Admin from "./apps/admin/presentation/pages/Admin";
+import Home from "./components/Home";
+import Category from "./components/Category";
+import UpdateProduct from "./components/UpdateProduct";
+import ProductList from "./components/ProductList";
+import ProductManagement from "./components/ProductManagement";
+import Cart from "./components/Cart";
+import { CartProvider } from "./contexts/CartContext";
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   const navigator = useNavigate();
@@ -25,17 +28,9 @@ const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   return <>{children}</>
 };
 
-import Home from "./components/Home";
-import Category from "./components/Category";
-import UpdateProduct from "./components/UpdateProduct";
-import ProductList from "./components/ProductList";
-import ProductManagement from "./components/ProductManagement";
-import Cart from "./components/Cart";
-import { CartProvider } from "./contexts/CartContext";
 // import { CartProvider } from "./contexts/CartContext";
 
 function App() {
-  const { authState } = useContext(AuthContext);
   // const location = useLocation();
   // const owner = "owner"; // Replace with actual owner logic as needed
   const ownerId = 'YOUR_USER_ID_HERE';
