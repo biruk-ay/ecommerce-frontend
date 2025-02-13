@@ -8,7 +8,8 @@ export default interface AuthState extends SMState{
     email?: string | null;
     token?: string | null;
     password?: string | null;
-    
+    role?: string | null;
+    id?: string | null;
 
 
 }

@@ -1,7 +1,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import { useAppSelector } from "../apps/store/store";
-import { selectUserName } from "../apps/auth/application/slice/AuthSlice";
+import { selectUserEmail, selectUserId, selectUserName, selectUserRole, selectUserToken } from "../apps/auth/application/slice/AuthSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import StorageProvider from "../di/StorageProvider";
@@ -25,7 +25,11 @@ const Resource = () => {
 
   }
   const navigator = useNavigate()
+  const email = useAppSelector(selectUserEmail);
   const username = useAppSelector(selectUserName);
+  const token = useAppSelector(selectUserToken);
+  const role = useAppSelector(selectUserRole);
+  const id = useAppSelector(selectUserId);
   if(!username) {
     return navigator("/user/login")
   }
@@ -37,6 +41,11 @@ const Resource = () => {
     <div>
       <input type="file" onChange={handleFileChange}></input>
       <button onClick={handleUpload}>upload</button>
+      <h1>{email}</h1>
+      <h1>{username}</h1>
+      <h1>{token}</h1>
+      <h1>{role}</h1>
+      <h1>{id}</h1>
     </div>
     </div>
     <Admin />
