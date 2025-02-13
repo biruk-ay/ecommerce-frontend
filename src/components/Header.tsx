@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../apps/store/store";
 import { logout, selectUserName } from "../apps/auth/application/slice/AuthSlice";
 
-
+import cartIcon from "../assets/Icon.svg"
+import { CartContext } from "../contexts/CartContext";
 const Header = () => {
   const navigator = useNavigate();
   const username = useAppSelector(selectUserName);
@@ -81,6 +82,8 @@ const Header = () => {
           <>
           <p>Welcome, {username}!</p>
           <button className="hover:underline" onClick={handleLogout}>Logout</button>
+          <Link to={"/"} ><img className="hover:underline" src={cartIcon}>
+                               </img> </Link> 
           </>
         ) : (
           <>
