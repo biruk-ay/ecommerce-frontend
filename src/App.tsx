@@ -39,7 +39,7 @@ function App() {
   
   return (
     <div className="App">
-      <CartProvider>
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart  />} />
@@ -50,8 +50,8 @@ function App() {
         <Route path="/user/login" element={<LoginForm />} />
         <Route path="/user/register" element={<RegisterForm />} />
         <Route path="/admin" element={<Admin />} />
-          <Route path="/productDetails/:productId" element={<ProductDetail />}
         <Route path="/search" element={<SearchResult/>} />
+        <Route path="/productDetails/:productId" element={<ProductDetail />} />
 
 
         <Route 
@@ -65,7 +65,6 @@ function App() {
           } 
         />
       </Routes>
-      </CartProvider>
     </div>
   );
 }
