@@ -3,7 +3,7 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './apps/store/store';
+import { persistor, store } from './apps/store/store';
 import ProductManagement from './components/ProductManagement';
 import Home from './components/Home';
 import ProductList from './components/ProductList';
@@ -13,6 +13,7 @@ import LoginForm from './components/Login';
 import UpdateProduct from './components/UpdateProduct';
 import Category from './components/Category';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
 
 
@@ -24,7 +25,9 @@ root.render(
   
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
