@@ -6,9 +6,32 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import img from "../assets/img.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import StorageProvider from "../di/StorageProvider";
+import { BASE_URL } from "../configs/config";
 
 function ProductManagement() {
+  const [UploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [originalFiles, setOriginalFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
+  const handleFileChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const file = evt.target.files?.[0];
+    if(file) setFile(file);
+  };
+  const handleUpload = async() => {
+    try {
+      const storage = StorageProvider.provideHostingStorage();
+      const UploadedImagesUrls: string[] = [];
+      for (const file of originalFiles) {
+        const uploadResult = await storage?.upload(file);
+        UploadedImagesUrls.push(uploadResult);
+      }
+      setUploadedImages(UploadedImagesUrls);
+      console.log("upload successful", UploadedImagesUrls);
+    } catch (error) {
+      console.error("upload failed ", error);
+    }
+
+  }
   const [clicked, setClicked] = useState(false);
   const [opened, setOpened] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -22,6 +45,7 @@ function ProductManagement() {
     const files = Array.from(event.target.files || []);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...newImages]);
+    setOriginalFiles((prevFiles) => [...prevFiles, ...files]);
   };
   const OnclickHandler = () => {
     setClicked(!clicked);
@@ -47,11 +71,12 @@ function ProductManagement() {
       name,
       desciption,
       price,
-      images,
+      UploadedImages,
       category,
     };
 
-    const apiUrl = "https://fakestoreapi.com/products";
+    // const apiUrl = "https://fakestoreapi.com/products";
+    const apiUrl = `${BASE_URL}product/pro`;
 
     try {
       const response = await axios.post(apiUrl, productData);
@@ -320,6 +345,12 @@ function ProductManagement() {
             onClick={productAdd}
           >
             Add Product
+          </button>
+          <button
+            className="border border-gray-500 rounded-3xl bg-violet-600 text-white w-[228.8px] h-[40px] "
+            onClick={handleUpload}
+          >
+            Add Images
           </button>
         </div>
       </div>

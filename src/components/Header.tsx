@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../apps/store/store";
 import { logout, selectUserName } from "../apps/auth/application/slice/AuthSlice";
-
 import cartIcon from "../assets/Icon.svg"
-import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const navigator = useNavigate();
   const username = useAppSelector(selectUserName);
