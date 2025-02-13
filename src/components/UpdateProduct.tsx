@@ -10,20 +10,21 @@ import axios from "axios";
 function UpdateProduct() {
   const {id} =useParams();
   const [data, setData] = useState({
-    title:"",
+    name:"",
     price: "",
     category: "",
     description:"",
+    img:"",
     
   });
-  const {title,price,category,description}=data;
+  const {name,price,category,description,img}=data;
   let navigate = useNavigate();
   const [images, setImages] = useState<string[]>([]);
   const [clicked, setClicked] = useState(false);
   const [opened, setOpened] = useState(false);
   const [update, setUpdate] = useState(false);
   // const[price,setPrice]=useState("");
-  const[name,setName]=useState("");
+ 
   // const[description,setDescription]=useState("");
   const[categoryName,setCategoryName]=useState("");
   const[selectedcategory,setSelectedCategory]=useState("");
@@ -53,9 +54,21 @@ function UpdateProduct() {
     loadUser();
   }, []);
   const loadUser = async () => {
-    const result = await axios.get(`https://fakestoreapi.com/products/${id}`);
-    setData(result.data);
-  };
+    try {
+        const response = await fetch(`http://localhost:5000/product/see/${id}`);
+
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+            throw new Error(`Error fetching data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setData(data);
+    } catch (error) {
+        console.error("Error loading user data:", error);
+        // Handle error (e.g., set an error state or show a message)
+    }
+};
  const handleCategorySelect = (selectedCategory: React.SetStateAction<string>) => {
   setCategoryName(selectedCategory);
   setClicked(false); // Close the dropdown after selection
@@ -67,25 +80,38 @@ function UpdateProduct() {
   
   = async()=>{
     const productData={
-      title,
+      name,
       description,
       price,
       images,
       category,
+      img,
     };
 
-    const apiUrl = "https://your-api-endpoint.com/products/7";
-
-  try {
-    const response = await axios.put(apiUrl, productData);
-    console.log("Product updated successfully", response.data);
-   alert("updated successfully")
-   navigate("/productList")
-   
+    const apiUrl = `http://localhost:5000/product/${id}`;
+    try {
+      const response = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json', // Set the content type to JSON
+          },
+          body: JSON.stringify(productData), // Convert productData to JSON string
+      });
+  
+      // Check if the response is ok (status code 200-299)
+      if (!response.ok) {
+          throw new Error(`Error updating product: ${response.statusText}`);
+      }
+  
+      const data = await response.json(); // Parse the response as JSON
+      console.log("Product updated successfully", data);
+      alert("Updated successfully");
+      navigate("/productList");
+  
   } catch (error) {
-    console.error("Failed to add product", error);
-    alert(error)
-  }
+      console.error("Failed to update product", error);
+      alert(error); // Display the error message
+  } 
 
   }
 
@@ -173,8 +199,9 @@ function UpdateProduct() {
                     <input
                       className="h-[72px] w-[443px] focus:outline-none"
                       type="text"
+                      name="name"
                       placeholder=""
-                      value={title}
+                      value={name}
                       onChange={handleChange}
                     ></input>
                   </div>
@@ -187,6 +214,7 @@ function UpdateProduct() {
                     <textarea
                       className="h-[179px] w-[443px] focus:outline-none"
                       placeholder=""
+                      name="description"
                       value={description}
                       onChange={handleChange}
                     ></textarea>
@@ -203,6 +231,7 @@ function UpdateProduct() {
                     type="text"
                     placeholder={selectedcategory}
                     readOnly
+                    name="category"
                     className="flex-grow p-2 rounded-l focus:outline-none cursor-pointer"
                     onClick={OnclickHandler}
                     value={category}
@@ -246,6 +275,7 @@ function UpdateProduct() {
                 <input
                   type="file"
                   multiple
+                  name="image"
                   accept="image/*"
                   onChange={handleImageChange}
                   className="hidden"
@@ -290,6 +320,7 @@ function UpdateProduct() {
                     type="number"
                     className="flex-grow p-2 rounded-l focus:outline-none  cursor-pointer"
                     value={price}
+                    name="price"
                       onChange={handleChange}
                   />
                 </div>

@@ -14,7 +14,9 @@ import UpdateProduct from "./components/UpdateProduct";
 import ProductList from "./components/ProductList";
 import ProductManagement from "./components/ProductManagement";
 import Cart from "./components/Cart";
-import { CartProvider } from "./contexts/CartContext";
+import ProductDetail from "./components/ProductDetail";
+import SearchResult from "./components/SearchResults";
+// import { CartProvider } from "./contexts/CartContext";
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   const navigator = useNavigate();
@@ -48,6 +50,10 @@ function App() {
         <Route path="/user/login" element={<LoginForm />} />
         <Route path="/user/register" element={<RegisterForm />} />
         <Route path="/admin" element={<Admin />} />
+          <Route path="/productDetails/:productId" element={<ProductDetail />}
+        <Route path="/search" element={<SearchResult/>} />
+
+
         <Route 
           path="/*"
           element= {

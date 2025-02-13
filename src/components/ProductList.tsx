@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/16/solid";
 
 // Define the Product interface
 interface Product {
-  id: number;
+  productId: number;
   title: string;
   description: string;
   category: string;
@@ -40,9 +40,10 @@ function ProductList() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get<Product[]>(
-        "https://fakestoreapi.com/products"
+        "http://localhost:5000/product/ownerProducts/673fbfd2871a567d5d885ae2"
       ); // Fake API
       setProducts(response.data);
+      console.log("data;",products);
     } catch (error) {
       console.error("Error fetching the products:", error);
     }
@@ -51,18 +52,27 @@ function ProductList() {
     fetchProducts();
   }, []);
   const deleteData = async (id: number) => {
+    console.log(`Attempting to delete product with ID: ${id}`);
     if (window.confirm("Are you sure you want to delete this record?")) {
-      const response = await fetch(`https://fakestoreapi.com/products${id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        alert("Record deleted successfully");
-        fetchProducts();
-      } else {
-        alert("Error deleting record");
-      }
+        try {
+            const response = await fetch(`http://localhost:5000/product/${id}`, {
+                method: "DELETE",
+            });
+
+            console.log(`Response status: ${response.status}`);
+            if (response.ok) {
+                // alert("Record deleted successfully");
+                fetchProducts();
+            } else {
+                const errorData = await response.json();
+                alert(`Error deleting record: ${errorData.message || "Unknown error"}`);
+            }
+        } catch (error) {
+            console.error("Error deleting record:", error);
+            alert("Error deleting record, please try again later.");
+        }
     }
-  };
+};
 
   // Calculate the current items
   const indexOfLastProduct = currentPage * itemsPerPage;
@@ -153,22 +163,23 @@ function ProductList() {
                     className="hover:bg-gray-100 rounded-3xl"
                   >
                     <td className="py-2 px-4 border-b ">
+                      
                       {index + indexOfFirstProduct + 1}
                     </td>{" "}
                     {/* Product Number */}
-                    <td className="py-2 px-4 border-b">{product.title}</td>
-                    <td className="py-2 px-4 border-b">{product.id}</td>
+                    <td className="py-2 px-4 border-b">{product.name}</td>
+                    <td className="py-2 px-4 border-b">{product.description}</td>
                     <td className="py-2 px-4 border-b">{product.category}</td>
                     <td className="py-2 px-4 border-b">${product.price}</td>
                     <td className="py-2 px-4 border-b">
-                      <Link to={`/update/${product.id}`}>
+                      <Link to={`/update/${product.productId}`}>
                         <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600">
                           Edit
                         </button>
                       </Link>
                       <button
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 ml-2 "
-                        onClick={() => deleteData(product.id)}
+                        onClick={() => deleteData(product.productId)}
                       >
                         Delete
                       </button>

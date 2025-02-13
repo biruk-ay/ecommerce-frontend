@@ -4,7 +4,8 @@ import topImage from "../assets/topImage.png";
 import { ArchiveBoxXMarkIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import Footer from "./Footer";
-import { CartContext } from "../contexts/CartContext";
+
+// import { useHistory } from "react-router-dom";
 
 interface CartItem {
   productId: string; // or mongoose.Schema.Types.ObjectId
@@ -16,23 +17,26 @@ interface CartItem {
   img?: string; // Optional field
 }
 function Cart() {
-  
+  const handleBackClick = () => {
+    window.history.back();
+};
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
      const [loading, setLoading] = useState<boolean>(true);
      const [error, setError] = useState<string | null>(null);
- const ownerId="673fbfd2871a567d5d885ae2";
+ const ownerId="673fb5c0388c0c24f9c6fde6";
      useEffect(() => {
          const fetchCart = async () => {
              try {
-                 const response = await fetch('http://localhost:5000/cart/673fbfd2871a567d5d885ae2');
+                 const response = await fetch('http://localhost:5000/cart/673fb5c0388c0c24f9c6fde6');
+
                  if (!response.ok) {
                      throw new Error('Failed to fetch cart');
                  }
                  const data = await response.json();
-                 console.log(data);
+                 console.log("data:",data);
                  setCartItems(data);
              } catch (error) {
-                 setError(error.message);
+              console.error('Fetch error:', error);
              } finally {
                  setLoading(false);
              }
@@ -48,6 +52,7 @@ function Cart() {
      if (error) {
          return <p>Error: {error}</p>;
      }
+     
      const handleDelete = async (ownerId: string, productId: string) => {
       try {
           const response = await fetch('http://localhost:5000/cart/remove', {
@@ -124,7 +129,7 @@ const deliveryFee=25;
          
             <div className=" flex flex-col  w-full sm:w-1/2 bg-gray-50">
           <h3 className="flex items-center text-2xl font-bold m-2">
-            <ArrowLeftIcon className="h-6 w-8 mr-2" />
+            <ArrowLeftIcon className="h-6 w-8 mr-2" onClick={handleBackClick} />
             Back to shopping
         </h3>            
         <hr className="border-gray-400" />

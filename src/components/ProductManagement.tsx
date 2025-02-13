@@ -189,7 +189,7 @@ function ProductManagement() {
                   </div>
                   {clicked && (
                     <div className="bg-white w-52 mt-2 m-8  border border-gray-300 rounded flex ">
-                      <ul className=" text-center">
+                      <ul className=" text-center max-h-40 overflow-x-hidden overflow-y-auto">
                         <li
                           className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer"
                           onClick={() => handleCategorySelect("Category A")}
@@ -213,7 +213,34 @@ function ProductManagement() {
                           onClick={() => handleCategorySelect("Category D")}
                         >
                           Category D
-                        </li>{" "}
+                        </li>
+                        
+                        <li
+                          className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300 cursor-pointer"
+                          onClick={() => handleCategorySelect("Category D")}
+                        >
+                          Category D
+                        </li>
+                        <li
+                          className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300 cursor-pointer"
+                          onClick={() => handleCategorySelect("Category D")}
+                        >
+                          Category D
+                        </li>
+                        <li
+                          className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300 cursor-pointer"
+                          onClick={() => handleCategorySelect("Category D")}
+                        >
+                          Category D
+                        </li>
+                        <li
+                          className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300 cursor-pointer"
+                          onClick={() => handleCategorySelect("Category D")}
+                        >
+                          Category D
+                        </li>
+                        
+                        {" "}
                       </ul>
                     </div>
                   )}

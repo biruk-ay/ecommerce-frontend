@@ -14,6 +14,12 @@ import UpdateProduct from './components/UpdateProduct';
 import Category from './components/Category';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import PriceSlider from './components/PriceSlider';
+import ProductDetail from './components/ProductDetail';
+import CategoryList from './components/CategoryDropdown';
+import CategoryDropdown from './components/CategoryDropdown';
+import SearchComponent from './components/SearchComponent';
+
 
 
 
