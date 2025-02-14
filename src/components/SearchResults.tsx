@@ -55,10 +55,10 @@ const SearchResults: React.FC = () => {
             {loading && <p>Loading...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            <div className='md:w-2/3 lg:w-3/4 py-1  w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 justify-items-center justify-end gap-y-20 gap-x-0 bg-slate-100 mb-5' style={{ marginTop: '20px' }}>
+            <div className='md:w-2/3 lg:w-3/4 py-1  w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-end gap-y-20 gap-x-0 bg-slate-100 mb-5' style={{ marginTop: '20px' }}>
                 {filteredData.length > 0 ? (
                     filteredData.map((item) => (
-                        <div className="w-72 bg-white shadow-lg rounded-xl overflow-hidden duration-500 hover:scale-105 hover:shadow-xl transition-transform">
+                        <div className="w-72 bg-white shadow-lg rounded-xl overflow-hidden ">
                         <img
                           className="w-full h-auto object-cover"
                           src={topImage}
@@ -74,8 +74,11 @@ const SearchResults: React.FC = () => {
                           <h2 className="text-gray-800 text-lg mt-2 font-bold">
                             ${item.price.toFixed(2)}
                           </h2>
-                          <button onClick={() =>{
-                            handleProductClick(item.productId)} }>details</button>
+                          {/* <button onClick={() =>{
+                            handleProductClick(item.productId)} }>details</button> */}
+                            <button onClick={() => handleProductClick((item.productId))} className="w-full mt-4 bg-purple-600 text-white font-semibold py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+                      Details
+                    </button>
                           {/* <button
                             onClick={() => {
                               console.log("Product ID:", product.productId);

@@ -9,15 +9,13 @@ import Home from './components/Home';
 import ProductList from './components/ProductList';
 
 import Cart from './components/Cart';
-import LoginForm from './components/Login';
+import LoginForm from './apps/auth/presentation/pages/Login';
+
 import UpdateProduct from './components/UpdateProduct';
 import Category from './components/Category';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import PriceSlider from './components/PriceSlider';
 import ProductDetail from './components/ProductDetail';
-import CategoryList from './components/CategoryDropdown';
-import CategoryDropdown from './components/CategoryDropdown';
 import SearchComponent from './components/SearchComponent';
 
 
@@ -32,7 +30,7 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <App />
+          <App/>
         </PersistGate>
       </Provider>
     </BrowserRouter>

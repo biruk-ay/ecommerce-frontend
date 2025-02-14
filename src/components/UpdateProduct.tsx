@@ -250,6 +250,18 @@ function UpdateProduct() {
                       <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer" onClick={() => handleCategorySelect("Category A")}>
                         Category A
                       </li>
+                      <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer" onClick={() => handleCategorySelect("Category A")}>
+                        Category A
+                      </li>
+                      <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer" onClick={() => handleCategorySelect("Category A")}>
+                        Category A
+                      </li>
+                      <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer" onClick={() => handleCategorySelect("Category A")}>
+                        Category A
+                      </li>
+                      <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300  cursor-pointer" onClick={() => handleCategorySelect("Category A")}>
+                        Category A
+                      </li>
                       <li className="  py-2 w-52 border  shadow-md rounded-sm hover:bg-fuchsia-900  hover:border-slate-300cursor-pointer" onClick={() => handleCategorySelect("Category B")}>
                         Category B
                       </li>

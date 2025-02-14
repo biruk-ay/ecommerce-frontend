@@ -16,6 +16,7 @@ import ProductManagement from "./components/ProductManagement";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import SearchResult from "./components/SearchResults";
+import EditP from "./components/EditP";
 // import { CartProvider } from "./contexts/CartContext";
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
@@ -51,6 +52,7 @@ function App() {
         <Route path="/user/register" element={<RegisterForm />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/search" element={<SearchResult/>} />
+        <Route path="/profile" element={<EditP/>} />
         <Route path="/productDetails/:productId" element={<ProductDetail />} />
 
 
@@ -59,7 +61,7 @@ function App() {
           element= {
             <ProtectedRoute>
               <Routes>
-                <Route path="/resource" element={<Resource />} />
+                <Route path="/resource" element={<Resource/>} />
               </Routes>
             </ProtectedRoute>
           } 

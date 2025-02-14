@@ -4,6 +4,8 @@ import topImage from "../assets/topImage.png";
 import { ArchiveBoxXMarkIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import Footer from "./Footer";
+import { useAppSelector } from "../apps/store/store";
+import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
 // import { useHistory } from "react-router-dom";
 
@@ -18,16 +20,18 @@ interface CartItem {
 }
 function Cart() {
   const handleBackClick = () => {
+
     window.history.back();
 };
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
      const [loading, setLoading] = useState<boolean>(true);
      const [error, setError] = useState<string | null>(null);
- const ownerId="673fb5c0388c0c24f9c6fde6";
+//  const ownerId="673fb5c0388c0c24f9c6fde6";
+const ownerId = useAppSelector(selectUserId) || ''; 
      useEffect(() => {
          const fetchCart = async () => {
              try {
-                 const response = await fetch('http://localhost:5000/cart/673fb5c0388c0c24f9c6fde6');
+                 const response = await fetch(`http://localhost:5000/cart/${ownerId}`);
 
                  if (!response.ok) {
                      throw new Error('Failed to fetch cart');
@@ -135,7 +139,7 @@ const deliveryFee=25;
         <hr className="border-gray-400" />
             <h2 className="text-2xl font-bold m-2">Shopping Cart</h2>
             <h4 className="text-2xl font-bold m-2">
-              You have {cartItems.length} items in your cart
+              You{ownerId} have {cartItems.length} items in your cart
             </h4>
             {cartItems.map((item)=><>
               <div className="flex flex-col justify-evenly items-center">
@@ -191,170 +195,7 @@ const deliveryFee=25;
                   </div>
                 </div>
               </div>
-              {/* <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-11/12 justify-between items-center">
-                <div className="flex w-3/12   justify-evenly items-center ">
-                  <img className="w-11/12  rounded-lg" src={topImage} alt="" />
-                </div>
-                <div className="flex  -ml-44 flex-col  justify-evenly items-center text-black  font-bold">
-                  
-                  <div className="text-start">
-                  <h3>Product Name</h3>
-                  <h3>Specific Description</h3>
-                  </div>
-                  <button className="bg-gray-100 w-7 h-10">
-                    <ArchiveBoxXMarkIcon className="h-9 w-6" />
-                  </button>
-                </div>
-                <div className="flex  mr-5 flex-col">
-                  <div className="flex flex-row text-black">
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      placeholder="1"
-                      className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
-                    />
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="mt-3 flex justify-evenly items-center ">
-                    <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
-                      54.00 Birr
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-11/12 justify-between items-center">
-                <div className="flex w-3/12   justify-evenly items-center ">
-                  <img className="w-11/12  rounded-lg" src={topImage} alt="" />
-                </div>
-                <div className="flex  -ml-44 flex-col  justify-evenly items-center text-black  font-bold">
-                  
-                  <div className="text-start">
-                  <h3>Product Name</h3>
-                  <h3>Specific Description</h3>
-                  </div>
-                  <button className="bg-gray-100 w-7 h-10">
-                    <ArchiveBoxXMarkIcon className="h-9 w-6" />
-                  </button>
-                </div>
-                <div className="flex  mr-5 flex-col">
-                  <div className="flex flex-row text-black">
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      placeholder="1"
-                      className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
-                    />
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="mt-3 flex justify-evenly items-center ">
-                    <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
-                      54.00 Birr
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-11/12 justify-between items-center">
-                <div className="flex w-3/12   justify-evenly items-center ">
-                  <img className="w-11/12  rounded-lg" src={topImage} alt="" />
-                </div>
-                <div className="flex  -ml-44 flex-col  justify-evenly items-center text-black  font-bold">
-                  
-                  <div className="text-start">
-                  <h3>Product Name</h3>
-                  <h3>Specific Description</h3>
-                  </div>
-                  <button className="bg-gray-100 w-7 h-10">
-                    <ArchiveBoxXMarkIcon className="h-9 w-6" />
-                  </button>
-                </div>
-                <div className="flex  mr-5 flex-col">
-                  <div className="flex flex-row text-black">
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      placeholder="1"
-                      className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
-                    />
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="mt-3 flex justify-evenly items-center ">
-                    <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
-                      54.00 Birr
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-11/12 justify-between items-center">
-                <div className="flex w-3/12   justify-evenly items-center ">
-                  <img className="w-11/12  rounded-lg" src={topImage} alt="" />
-                </div>
-                <div className="flex  -ml-44 flex-col  justify-evenly items-center text-black  font-bold">
-                  
-                  <div className="text-start">
-                  <h3>{item.productId.price}</h3>
-                  <h3>Specific Description</h3>
-                  </div>
-                  <button className="bg-gray-100 w-7 h-10">
-                    <ArchiveBoxXMarkIcon className="h-9 w-6" />
-                  </button>
-                </div>
-                <div className="flex  mr-5 flex-col">
-                  <div className="flex flex-row text-black">
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      placeholder="1"
-                      className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
-                    />
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div className="mt-3 flex justify-evenly items-center ">
-                    <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
-                      54.00 Birr
-                    </div>
-                  </div>
-                </div>
-              </div> */}
+             
             </div></>)}
            
             </div>
@@ -438,177 +279,3 @@ export default Cart;
 
 
 
-// import React, { useContext, useEffect, useState } from 'react';
-// import { CartContext } from '../contexts/CartContext';
-// import Header from './Header';
-// import Footer from './Footer';
-// import axios from 'axios';
-
-// function Cart() {
-//   const [cartItems, setCartItems] = useState();
-
-//   useEffect(() => {
-//     const fetchCart = async () => {
-//       // Replace with your API endpoint
-//       const response = await axios.get('http://localhost:5000/api/cart/owner');
-//       setCartItems(response.data.items);
-//     };
-
-//     fetchCart();
-//   }, []);
-
-//   // const addToCart = (product: ProductDetails) => {
-//   //   setCartItems((prevItems) => {
-//   //     const existingItem = prevItems.find(item => item.productId === product.productId);
-//   //     if (existingItem) {
-//   //       // Update quantity if the item already exists
-//   //       return prevItems.map(item =>
-//   //         item.productId === product.productId
-//   //           ? { ...item, quantity: item.quantity + 1 }
-//   //           : item
-//   //       );
-//   //     } else {
-//   //       // Add new item to cart
-//   //       return [...prevItems, { productId: product.productId, quantity: 1, productDetail: product }];
-//   //     }
-//   //   });
-//   // };
-
-//   // const updateCartItem = (productId: string, quantity: number) => {
-//   //   setCartItems((prevItems: { productId: string; }[]) => {
-//   //     return prevItems.map((item: { productId: string; }) =>
-//   //       item.productId === productId
-//   //         ? { ...item, quantity: Math.max(1, quantity) } // Ensure quantity is at least 1
-//   //         : item
-//   //     );
-//   //   });
-//   // };
-
-//   // const removeCartItem = (productId: string) => {
-//   //   setCartItems((prevItems: any[]) => prevItems.filter((item: { productId: string; }) => item.productId !== productId));
-//   // };
-//   // const cartContext = useContext(CartContext);
-
-//   // if (!cartContext) {
-//   //   return <div>Error: Cart context is not available.</div>;
-//   // }
-
-//   // const { cartItems, updateCartItem, removeCartItem } = cartContext;
-
-//   // const totalAmount = cartItems.reduce((total: number, item: { productDetail: { price: number; }; quantity: number; }) => total + item.productDetail.price * item.quantity, 0);
-
-//   return (
-//     <>
-//       <Header />
-//       <div>
-//         <h2>Shopping Cart</h2>
-//         <h4>You have {cartItems.length} items in your cart</h4>
-//         {cartItems.map(item => (
-//           <div key={item.productId}>
-//             <h3>{item.productDetail.name}</h3>
-//             <p>{item.productDetail.description}</p>
-//             <div>
-//               <button onClick={() => updateCartItem(item.productId, item.quantity - 1)} disabled={item.quantity <= 1}>-</button>
-//               <span>{item.quantity}</span>
-//               <button onClick={() => updateCartItem(item.productId, item.quantity + 1)}>+</button>
-//               <button onClick={() => removeCartItem(item.productId)}>Remove</button>
-//             </div>
-//             <div>Price: {item.productDetail.price} Birr</div>
-//           </div>
-//         ))}
-//         <div>Total Amount: {totalAmount.toFixed(2)} Birr</div>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default Cart;
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-
-// interface ProductDetails {
-//     productId: string;
-//     name: string;
-//     price: number;
-//     description: string;
-//     category: string;
-//     owner: string;
-//     __v: number;
-// }
-  
-// interface CartItem {
-//     productId: string;
-//     quantity: number;
-//     productDetail: ProductDetails | undefined; // Allow for undefined
-// }
-
-// const Cart = () => {
-//     const [cartItems, setCartItems] = useState<CartItem[]>([]);
-//     const owner = '673fbfd2871a567d5d885ae2'; // Hardcoded owner ID
-
-//     useEffect(() => {
-//         const fetchCartItems = async () => {
-//             try {
-//                 const response = await fetch(`http://localhost:5000/cart/${owner}`, {
-//                     method: 'GET',
-//                     headers: {
-//                         'Content-Type': 'application/json',
-//                     },
-//                 });
-//                 if (!response.ok) {
-//                     throw new Error('Failed to fetch cart items');
-//                 }
-//                 const data = await response.json();
-//                 console.log("Fetched data:", data); // Log the fetched data
-
-//                 setCartItems(data.items); // Use data.items to set state
-
-//             } catch (error) {
-//                 console.error('Error fetching cart items:', error);
-//             }
-//         };
-
-//         fetchCartItems();
-//     }, []); // Empty dependency array to run only once on mount
-
-//     return (
-//         <div>
-//             <h1>Your Cart length {cartItems.length}</h1>
-//             {/* <ul>
-//                 {cartItems.length > 0 ? (
-//                     cartItems.map((item) => {
-//                         console.log("Rendering item:", item); // Log each item
-//                         return (
-//                             <li key={item.productId}>
-//                                 <div>
-//                                     <strong>Product ID:</strong> {item.productId}
-//                                 </div>
-//                                 <div>
-//                                     <strong>Name:</strong> {item.productDetail?.name || "Unnamed Product"}
-//                                 </div>
-//                                 <div>
-//                                     <strong>Price:</strong> {item.productDetail?.price !== undefined ? `$${item.productDetail.price.toFixed(2)}` : "N/A"}
-//                                 </div>
-//                                 <div>
-//                                     <strong>Quantity:</strong> {item.quantity}
-//                                 </div>
-//                             </li>
-//                         );
-//                     })
-//                 ) : (
-//                     <li>No items in cart.</li>
-//                 )}
-//             </ul> */}
-//         </div>
-//     );
-// };
-
-// export default Cart;

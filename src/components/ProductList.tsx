@@ -3,6 +3,8 @@ import Header from "./Header";
 import axios from "axios";
 import { data, Link } from "react-router-dom";
 import { Bars3Icon } from "@heroicons/react/16/solid";
+import { useAppSelector } from "../apps/store/store";
+import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
 // Define the Product interface
 interface Product {
@@ -34,13 +36,15 @@ function ProductList() {
   const handleLinkClick = (path: React.SetStateAction<string>) => {
     setActiveLink(path);
   };
+  const id = useAppSelector(selectUserId);
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Number of items per page
   const fetchProducts = async () => {
     try {
       const response = await axios.get<Product[]>(
-        "http://localhost:5000/product/ownerProducts/673fbfd2871a567d5d885ae2"
+        `http://localhost:5000/product/ownerProducts/${id}`
       ); // Fake API
       setProducts(response.data);
       console.log("data;",products);
@@ -159,7 +163,7 @@ function ProductList() {
               <tbody>
                 {currentProducts.map((product, index) => (
                   <tr
-                    key={product.id}
+                    key={product.productId}
                     className="hover:bg-gray-100 rounded-3xl"
                   >
                     <td className="py-2 px-4 border-b ">
@@ -167,7 +171,7 @@ function ProductList() {
                       {index + indexOfFirstProduct + 1}
                     </td>{" "}
                     {/* Product Number */}
-                    <td className="py-2 px-4 border-b">{product.name}</td>
+                    <td className="py-2 px-4 border-b">{product.title}</td>
                     <td className="py-2 px-4 border-b">{product.description}</td>
                     <td className="py-2 px-4 border-b">{product.category}</td>
                     <td className="py-2 px-4 border-b">${product.price}</td>

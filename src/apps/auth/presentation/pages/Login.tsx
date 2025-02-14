@@ -13,7 +13,7 @@ const LoginForm = () => {
   const handleLogin = (evt: React.FormEvent) => {
     evt.preventDefault();
     dispatch(login({name: email, password: password}));
-    navigator('/resource')
+    navigator('/')
   }
   
     return (

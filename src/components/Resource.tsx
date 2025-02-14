@@ -38,7 +38,7 @@ const Resource = () => {
     <Header />
     <div className="flex justify-center items-center flex-col">
       <h1 className="font-cursive text-6xl font-extrabold text-center text-primary">Welcome { username } !!!</h1>
-    <div>
+    <div className="mb-20">
       <input type="file" onChange={handleFileChange}></input>
       <button onClick={handleUpload}>upload</button>
       <h1>{email}</h1>
