@@ -84,20 +84,39 @@ const id = useAppSelector(selectUserId);
     const productData = {
       name,
       price,
-      images,
+      description,
       category,
+      img:UploadedImages,
+      owner:id,
+
     };
 
-    const apiUrl = "https://fakestoreapi.com/products";
 
     try {
-      const response = await axios.post(apiUrl, productData);
-      console.log("Product added successfully", response.data);
-      alert("uploaded successfully");
-    } catch (error) {
-      console.error("Failed to add product", error);
-      alert(error);
-    }
+      const response = await fetch("http://localhost:5000/product/pro", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(productData), // Send productData directly
+
+      });
+
+      if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Error response:", errorData);
+          throw new Error("Failed to add to cart");
+      }
+
+      const cartResponse: Product = await response.json();
+      
+      alert("Added to product!");
+      
+  } catch (error) {
+      console.error("Error adding to product:", error);
+      console.log("product data:",productData);
+      alert("Error adding to cart. Please try again.");
+  }
   };
 
   return (
