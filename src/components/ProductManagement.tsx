@@ -5,11 +5,34 @@ import { Bars3Icon } from "@heroicons/react/20/solid";
 import img from "../assets/img.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import StorageProvider from "../di/StorageProvider";
+import { BASE_URL } from "../configs/config";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 import { useAppSelector } from "../apps/store/store";
 
 function ProductManagement() {
+  const [UploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [originalFiles, setOriginalFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
+  const handleFileChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const file = evt.target.files?.[0];
+    if(file) setFile(file);
+  };
+  const handleUpload = async() => {
+    try {
+      const storage = StorageProvider.provideHostingStorage();
+      const UploadedImagesUrls: string[] = [];
+      for (const file of originalFiles) {
+        const uploadResult = await storage?.upload(file);
+        UploadedImagesUrls.push(uploadResult);
+      }
+      setUploadedImages(UploadedImagesUrls);
+      console.log("upload successful", UploadedImagesUrls);
+    } catch (error) {
+      console.error("upload failed ", error);
+    }
+
+  }
   const [clicked, setClicked] = useState(false);
   const [opened, setOpened] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -24,6 +47,7 @@ const id = useAppSelector(selectUserId);
     const files = Array.from(event.target.files || []);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...newImages]);
+    setOriginalFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
   const OnclickHandler = () => {
@@ -60,39 +84,20 @@ const id = useAppSelector(selectUserId);
     const productData = {
       name,
       price,
-      description,
-      category,
       images,
-      owner:id,
-
+      category,
     };
 
+    const apiUrl = "https://fakestoreapi.com/products";
 
     try {
-      const response = await fetch("http://localhost:5000/product/pro", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(productData), // Send productData directly
-
-      });
-
-      if (!response.ok) {
-          const errorData = await response.json();
-          console.error("Error response:", errorData);
-          throw new Error("Failed to add to cart");
-      }
-
-      const cartResponse: Product = await response.json();
-      
-      alert("Added to product!");
-      
-  } catch (error) {
-      console.error("Error adding to product:", error);
-      console.log("product data:",productData);
-      alert("Error adding to cart. Please try again.");
-  }
+      const response = await axios.post(apiUrl, productData);
+      console.log("Product added successfully", response.data);
+      alert("uploaded successfully");
+    } catch (error) {
+      console.error("Failed to add product", error);
+      alert(error);
+    }
   };
 
   return (
@@ -263,6 +268,12 @@ const id = useAppSelector(selectUserId);
             onClick={productAdd}
           >
             Add Product
+          </button>
+          <button
+            className="border border-gray-500 rounded-3xl bg-violet-600 text-white w-[228.8px] h-[40px] "
+            onClick={handleUpload}
+          >
+            Add Images
           </button>
         </div>
       </div>
