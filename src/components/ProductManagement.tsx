@@ -10,23 +10,22 @@ import { BASE_URL } from "../configs/config";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 import { useAppSelector } from "../apps/store/store";
 
+
 function ProductManagement() {
+  const ownerId = useAppSelector(selectUserId);
   const [UploadedImages, setUploadedImages] = useState<string[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
-  const handleFileChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    const file = evt.target.files?.[0];
-    if(file) setFile(file);
-  };
-  const handleUpload = async() => {
+
+  const handleUpload = async(files: File[]) => {
     try {
       const storage = StorageProvider.provideHostingStorage();
       const UploadedImagesUrls: string[] = [];
-      for (const file of originalFiles) {
+      for (const file of files) {
         const uploadResult = await storage?.upload(file);
         UploadedImagesUrls.push(uploadResult);
       }
-      setUploadedImages(UploadedImagesUrls);
+      setUploadedImages((prevUrls) => [...prevUrls, ...UploadedImagesUrls]); 
       console.log("upload successful", UploadedImagesUrls);
     } catch (error) {
       console.error("upload failed ", error);
@@ -42,12 +41,12 @@ function ProductManagement() {
   const [category, setCategory] = useState("");
   const [selectedcategory, setSelectedCategory] = useState("");
   const [activeLink, setActiveLink] = useState("");
-const id = useAppSelector(selectUserId);
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...newImages]);
     setOriginalFiles((prevFiles) => [...prevFiles, ...files]);
+    await handleUpload(files);
   };
 
   const OnclickHandler = () => {
@@ -87,10 +86,9 @@ const id = useAppSelector(selectUserId);
       description,
       category,
       img:UploadedImages,
-      owner:id,
+      owner:ownerId,
 
     };
-
 
     try {
       const response = await fetch("http://localhost:5000/product/pro", {
@@ -287,12 +285,6 @@ const id = useAppSelector(selectUserId);
             onClick={productAdd}
           >
             Add Product
-          </button>
-          <button
-            className="border border-gray-500 rounded-3xl bg-violet-600 text-white w-[228.8px] h-[40px] "
-            onClick={handleUpload}
-          >
-            Add Images
           </button>
         </div>
       </div>

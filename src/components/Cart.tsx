@@ -4,6 +4,7 @@ import topImage from "../assets/topImage.png";
 import { ArchiveBoxXMarkIcon } from "@heroicons/react/20/solid";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import Footer from "./Footer";
+import PaymentProvider from "../apps/payment/di/PaymentProvider";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
@@ -19,6 +20,11 @@ interface CartItem {
   img?: string; // Optional field
 }
 function Cart() {
+  const ownerId = useAppSelector(selectUserId) as string;
+  const handleCheckout = async () => {
+    const result = await PaymentProvider.providePayment().checkout(ownerId, totalWithDelivery);
+    window.open(result.checkout_url, "_blank");
+  }
   const handleBackClick = () => {
 
     window.history.back();
@@ -26,8 +32,7 @@ function Cart() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
      const [loading, setLoading] = useState<boolean>(true);
      const [error, setError] = useState<string | null>(null);
-//  const ownerId="673fb5c0388c0c24f9c6fde6";
-const ownerId = useAppSelector(selectUserId) || ''; 
+
      useEffect(() => {
          const fetchCart = async () => {
              try {
@@ -259,7 +264,7 @@ const deliveryFee=25;
            
              
             <div className="bg-slate-100 mt-9 mb-10 text-center rounded-lg text-black font-bold text-xl p-3 w-5/12">
-                <button>Check Out</button></div>       
+                <button onClick={handleCheckout}>Check Out</button></div>       
               </div>
            
             </div>
