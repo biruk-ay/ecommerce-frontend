@@ -8,16 +8,14 @@ import PaymentProvider from "../apps/payment/di/PaymentProvider";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
-// import { useHistory } from "react-router-dom";
-
 interface CartItem {
-  productId: string; // or mongoose.Schema.Types.ObjectId
+  productId: string;
   quantity: number;
   name: string;
   price: number;
   description: string;
   category: string;
-  img?: string; // Optional field
+  img?: string;
 }
 function Cart() {
   const ownerId = useAppSelector(selectUserId) as string;
@@ -57,8 +55,14 @@ function Cart() {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
-  }
+    return (
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <p className="text-xl font-semibold text-gray-700 animate-pulse">
+                Loading...
+            </p>
+        </div>
+    );
+}
 
   if (error) {
     return <p>Error: {error}</p>;
@@ -78,7 +82,6 @@ function Cart() {
         const errorData = await response.json();
         console.error("Error removing item:", errorData.message);
       } else {
-        // Update UI here
         console.log("Item removed successfully");
         setCartItems((prevItems) =>
           prevItems.filter((item) => item.productId !== productId)
@@ -94,16 +97,16 @@ function Cart() {
     productId: string,
     newQuantity: number
   ) => {
-    if (newQuantity < 0) return; 
+    if (newQuantity < 0) return;
 
     try {
       const response = await fetch("http://localhost:5000/cart/update", {
-        method: "PUT", // Use PUT for updates
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          owner: ownerId, // Pass the owner ID
+          owner: ownerId,
           productId: productId,
           quantity: newQuantity,
         }),
@@ -112,9 +115,7 @@ function Cart() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Error updating cart item:", errorData.message);
-      
       } else {
-
         console.log("Cart item updated successfully");
         const updatedItems = cartItems.map((item) =>
           item.productId === productId
@@ -143,9 +144,9 @@ function Cart() {
           alt="top image"
         />
       </div>
-      <div className="w-full bg-gray-50 -mt-36 mb-10 rounded-3xl border z-30 h-max flex justify-evenly items-center">
-        <div className="flex flex-col sm:flex-row  p-20 w-full sm:w-10/12 justify-between items-center mt-36 bg-gray-50 ">
-          <div className=" flex flex-col  w-full sm:w-1/2 bg-gray-50">
+      <div className="w-full bg-gray-50 -mt-36 mb-10 rounded-3xl border z-30  h-max flex justify-evenly items-center">
+        <div className="flex flex-col md:flex-row  p-20 w-full sm:w-10/12 justify-between items-center mt-36 bg-gray-50 ">
+          <div className=" flex flex-col  w-full md:w-1/2 bg-gray-50">
             <h3 className="flex items-center text-2xl font-bold m-2">
               <ArrowLeftIcon
                 className="h-6 w-8 mr-2"
@@ -158,153 +159,115 @@ function Cart() {
             <h4 className="text-2xl font-bold m-2">
               You have {cartItems.length} items in your cart
             </h4>
-            {cartItems.map((item) => (
-              <>
-                <div className="flex flex-col justify-evenly items-center">
-                  <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-11/12 justify-between items-center">
-                    <div className="flex w-3/12 justify-evenly items-center ">
-                      <img
-                        className="w-11/12  rounded-lg"
-                        src={topImage}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex  -ml-44 flex-col  justify-evenly items-center text-black  font-bold">
-                      <div className="text-start">
-                        <h3>{item.name}</h3>
-                        <h3>{item.description}</h3>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(ownerId, item.productId)}
-                        className="bg-gray-100 w-7 h-10"
-                      >
-                        <ArchiveBoxXMarkIcon className="h-9 w-6" />
-                      </button>
-                    </div>
-                    <div className="flex  mr-5 flex-col">
-                      <div className="flex flex-row text-black">
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(
-                              ownerId,
-                              item.productId,
-                              item.quantity - 1
-                            )
-                          }
-                          disabled={item.quantity <= 1}
-                          type="button"
-                          className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
-                        >
-                          -
-                        </button>
-                        <input
-                          value={item.quantity}
-                          type="number"
-                          placeholder="1"
-                          className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
-                          onChange={(e) => {
-                            const newQuantity = Number(e.target.value);
-                            handleUpdateQuantity(
-                              ownerId,
-                              item.productId,
-                              newQuantity
-                            );
-                          }}
+            <div className="overflow-y-auto h-96">
+              {cartItems.map((item) => (
+                <>
+                  <div className="flex flex-col  justify-evenly items-center">
+                    <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-full justify-between items-center">
+                      <div className="flex w-3/12 justify-evenly items-center ">
+                        <img
+                          className="w-11/12  rounded-lg"
+                          src={item.img}
+                          alt=""
                         />
+                      </div>
+                      <div className="flex   flex-col  justify-evenly items-center text-black  font-bold">
+                        <div className="text-start">
+                          <h3>{item.name}</h3>
+                          <h3>{item.description}</h3>
+                        </div>
                         <button
-                          onClick={() =>
-                            handleUpdateQuantity(
-                              ownerId,
-                              item.productId,
-                              item.quantity + 1
-                            )
-                          }
                           type="button"
-                          className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
+                          onClick={() => handleDelete(ownerId, item.productId)}
+                          className="bg-gray-100 w-7 h-10"
                         >
-                          +
+                          <ArchiveBoxXMarkIcon className="h-9 w-6" />
                         </button>
                       </div>
-                      <div className="mt-3 flex justify-evenly items-center ">
-                        <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
-                          {item.price}
+                      <div className="flex  mr-5 flex-col">
+                        <div className="flex flex-row text-black">
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(
+                                ownerId,
+                                item.productId,
+                                item.quantity - 1
+                              )
+                            }
+                            disabled={item.quantity <= 1}
+                            type="button"
+                            className="inline-block rounded bg-primary px-4  text-md font-extrabold mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca] "
+                          >
+                            -
+                          </button>
+                          <input
+                            value={item.quantity}
+                            type="number"
+                            placeholder="1"
+                            className="resizable-input rounded bg-gray-200 text-center text-md font-bold text-black shadow-xl min-w-[30px] w-10"
+                            onChange={(e) => {
+                              const newQuantity = Number(e.target.value);
+                              handleUpdateQuantity(
+                                ownerId,
+                                item.productId,
+                                newQuantity
+                              );
+                            }}
+                          />
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(
+                                ownerId,
+                                item.productId,
+                                item.quantity + 1
+                              )
+                            }
+                            type="button"
+                            className="inline-block rounded bg-primary px-4  text-md font-extrabold ml-1 mr-1 text-white shadow-[0_4px_9px_-4px_#3b71ca]  "
+                          >
+                            +
+                          </button>
+                        </div>
+                        <div className="mt-3 flex justify-evenly items-center ">
+                          <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
+                            {item.price}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </>
-            ))}
+                </>
+              ))}
+            </div>
           </div>
 
-          <div className=" flex flex-col rounded-3xl h-full justify-evenly items-center  w-full sm:w-1/2">
-            <div className="bg-primary flex flex-col rounded-3xl    w-full sm:w-11/12 ">
-              <div className="flex justify-evenly items-center">
-                <h3 className="font-extrabold text-4xl text-white m-5 mt-2">
-                  Card Details
-                </h3>
-              </div>
-              <div className="flex flex-col  ml-10">
-                <h2 className="font-bold text-3xl text-white mb-5">
-                  Card type
-                </h2>
-                <div className="flex flex-row w-1/2  ">
-                  <div className="flex-1 p-1  text-center bg-gray-200 mr-3">
-                    b
-                  </div>
-                  <div className="flex-1 p-1  text-center bg-gray-200">k</div>
-                  <div className="flex-1 p-1 text-center bg-gray-200 ml-3">
-                    9
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col justify-evenly items-center mt-14">
-                <input
-                  className="shadow appearance-none text-xl mb-9  bg-purple-600   w-full sm:w-9/12 py-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  placeholder="card holder's name "
-                />
-
-                <input
-                  className="shadow appearance-none mb-9 text-xl  bg-purple-600   w-full sm:w-9/12 py-5 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                  placeholder="card number"
-                />
-                <div className="flex flex-row justify-evenly items-center w-10/12">
-                  <input
-                    className="shadow appearance-none text-center bg-purple-600 text-xl mb-9  rounded w-4/12 py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="number"
-                    placeholder="number"
-                  />
-                  <input
-                    className="shadow appearance-none text-center bg-purple-600 text-xl mb-14  rounded w-4/12 py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="number"
-                    placeholder="cvv"
-                  />
-                </div>
-              </div>
-              <hr className="border-gray-400" />
-              <div className="flex flex-col  text-white justify-around items-center">
-                <div className="flex flex-row w-full font-bold text-lg ">
+          <div className=" flex flex-col rounded-3xl h-full justify-evenly items-center  w-full md:w-1/2">
+            <div className="bg-primary flex flex-col rounded-3xl justify-evenly items-center   w-full sm:w-11/12 ">
+              <div className="flex flex-col  text-white justify-evenly text-center pt-8 items-center">
+                <div className="flex flex-row w-full gap-9 font-bold text-lg ">
                   <div className="flex flex-col w-1/2">
-                    <div className="flex ">sub total</div>
+                    <div className="flex ">Sub Total</div>
                     <div className="flex ">Delivery</div>
                     <div className="flex ">Total(incl.taxes)</div>
                   </div>
                   <div className="flex flex-col  w-1/2">
-                    <div className="flex">{totalAmount.toFixed(2)}</div>
-                    <div className="flex">{deliveryFee.toFixed(2)}</div>
+                    <div className="flex">{totalAmount.toFixed(2)} Birr</div>
+                    <div className="flex">{deliveryFee.toFixed(2)} Birr</div>
                     <div className="flex">
                       <div className="flex">
-                        {totalWithDelivery.toFixed(2)} birr
+                        {totalWithDelivery.toFixed(2)} Birr
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-slate-100 mt-9 mb-10 text-center rounded-lg text-black font-bold text-xl p-3 w-5/12">
-                  <button onClick={handleCheckout}>Check Out</button>
+                <div className="mt-9 mb-10 text-center rounded-lg  text-black font-bold text-xl  w-11/12">
+                  <button
+                    className="  bg-slate-100 text-center p-2 rounded-lg w-11/12"
+                    onClick={handleCheckout}
+                  >
+                    Check Out
+                  </button>
                 </div>
               </div>
             </div>

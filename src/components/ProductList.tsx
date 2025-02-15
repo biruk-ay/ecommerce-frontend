@@ -6,17 +6,17 @@ import { Bars3Icon } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
-// Define the Product interface
+
 interface Product {
   productId: number;
   title: string;
   description: string;
   category: string;
   price: number;
-  img:string;
+  img: string;
 }
 
-// Define a type for your location state
+
 
 function ProductList() {
   const [clicked, setClicked] = useState(false);
@@ -38,7 +38,7 @@ function ProductList() {
     setActiveLink(path);
   };
   const id = useAppSelector(selectUserId);
-  
+
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Number of items per page
@@ -48,7 +48,7 @@ function ProductList() {
         `http://localhost:5000/product/ownerProducts/${id}`
       ); // Fake API
       setProducts(response.data);
-      console.log("data;",products);
+      console.log("data;", products);
     } catch (error) {
       console.error("Error fetching the products:", error);
     }
@@ -59,27 +59,28 @@ function ProductList() {
   const deleteData = async (id: number) => {
     console.log(`Attempting to delete product with ID: ${id}`);
     if (window.confirm("Are you sure you want to delete this record?")) {
-        try {
-            const response = await fetch(`http://localhost:5000/product/${id}`, {
-                method: "DELETE",
-            });
+      try {
+        const response = await fetch(`http://localhost:5000/product/${id}`, {
+          method: "DELETE",
+        });
 
-            console.log(`Response status: ${response.status}`);
-            if (response.ok) {
-                // alert("Record deleted successfully");
-                fetchProducts();
-            } else {
-                const errorData = await response.json();
-                alert(`Error deleting record: ${errorData.message || "Unknown error"}`);
-            }
-        } catch (error) {
-            console.error("Error deleting record:", error);
-            alert("Error deleting record, please try again later.");
+        console.log(`Response status: ${response.status}`);
+        if (response.ok) {
+          // alert("Record deleted successfully");
+          fetchProducts();
+        } else {
+          const errorData = await response.json();
+          alert(
+            `Error deleting record: ${errorData.message || "Unknown error"}`
+          );
         }
+      } catch (error) {
+        console.error("Error deleting record:", error);
+        alert("Error deleting record, please try again later.");
+      }
     }
-};
+  };
 
-  // Calculate the current items
   const indexOfLastProduct = currentPage * itemsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
   const currentProducts = products.slice(
@@ -87,10 +88,8 @@ function ProductList() {
     indexOfLastProduct
   );
 
-  // Change page
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  // Total pages
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
   return (
@@ -131,7 +130,6 @@ function ProductList() {
                         List Product
                       </Link>
                     </li>
-                    
                   </ul>
                 </div>
               )}
@@ -143,7 +141,6 @@ function ProductList() {
               <thead className="bg-gray-200">
                 <tr>
                   <th className="py-2 px-4 border-b text-left text-gray-600"></th>{" "}
-                  
                   <th className="py-2 px-4 border-b text-left text-gray-600">
                     Name
                   </th>
@@ -168,12 +165,13 @@ function ProductList() {
                     className="hover:bg-gray-100 rounded-3xl"
                   >
                     <td className="py-2 px-4 border-b ">
-                      
                       {index + indexOfFirstProduct + 1}
                     </td>{" "}
                     {/* Product Number */}
                     <td className="py-2 px-4 border-b">{product.title}</td>
-                    <td className="py-2 px-4 border-b">{product.description}</td>
+                    <td className="py-2 px-4 border-b">
+                      {product.description}
+                    </td>
                     <td className="py-2 px-4 border-b">{product.category}</td>
                     <td className="py-2 px-4 border-b">${product.price}</td>
                     <td className="py-2 px-4 border-b">

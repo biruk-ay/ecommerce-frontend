@@ -41,11 +41,8 @@ function EditP() {
         <div className="flex justify-evenly items-center w-3/5">
           <div className="grid sm:flex justify-evenly items-center lg:grid-cols-2 md:grid-cols-2 gap-3 md:w-11/12 w-full">
             <div className="flex flex-col pt-12 bg-purple-100 rounded-3xl px-4 md:w-full w-auto gap-10 h-96">
-              {/* Personal Info Section */}
               <div className="personal-info">
-                <div className="person-icon">
-                  {/* <IoPersonCircleSharp className="profile-icon"/> */}
-                </div>
+                <div className="person-icon"></div>
                 <div className="personal-details">
                   <div className="text-3xl font-black text-center">
                     <Link className="edit-link" to={""}>
@@ -108,7 +105,27 @@ function EditP() {
                   <h3 className="text-xl font-bold">Products</h3>
                 </Link>
               </div>
-
+              <div className="flex flex-row items-center gap-3">
+                <Link to=" " className="flex items-center gap-3">
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-10"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                      />
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-bold">Edit Information</h3>
+                </Link>
+              </div>
               <div className="flex flex-row gap-3">
                 <span>
                   <svg

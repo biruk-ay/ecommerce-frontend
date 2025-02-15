@@ -10,14 +10,13 @@ import { BASE_URL } from "../configs/config";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 import { useAppSelector } from "../apps/store/store";
 
-
 function ProductManagement() {
   const ownerId = useAppSelector(selectUserId);
   const [UploadedImages, setUploadedImages] = useState<string[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
 
-  const handleUpload = async(files: File[]) => {
+  const handleUpload = async (files: File[]) => {
     try {
       const storage = StorageProvider.provideHostingStorage();
       const UploadedImagesUrls: string[] = [];
@@ -25,13 +24,12 @@ function ProductManagement() {
         const uploadResult = await storage?.upload(file);
         UploadedImagesUrls.push(uploadResult);
       }
-      setUploadedImages((prevUrls) => [...prevUrls, ...UploadedImagesUrls]); 
+      setUploadedImages((prevUrls) => [...prevUrls, ...UploadedImagesUrls]);
       console.log("upload successful", UploadedImagesUrls);
     } catch (error) {
       console.error("upload failed ", error);
     }
-
-  }
+  };
   const [clicked, setClicked] = useState(false);
   const [opened, setOpened] = useState(false);
   const [update, setUpdate] = useState(false);
@@ -41,7 +39,9 @@ function ProductManagement() {
   const [category, setCategory] = useState("");
   const [selectedcategory, setSelectedCategory] = useState("");
   const [activeLink, setActiveLink] = useState("");
-  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = Array.from(event.target.files || []);
     const newImages = files.map((file) => URL.createObjectURL(file));
     setImages((prevImages) => [...prevImages, ...newImages]);
@@ -63,7 +63,6 @@ function ProductManagement() {
   const navigate = useNavigate();
   const handleLinkClick = (path: React.SetStateAction<string>) => {
     setActiveLink(path);
-    
   };
   interface Product {
     _id: string;
@@ -71,10 +70,11 @@ function ProductManagement() {
     price: number;
     description?: string;
     img?: string;
-    
-}
+  }
 
-  const handleCategorySelect = (selectedCategory: React.SetStateAction<string>) => {
+  const handleCategorySelect = (
+    selectedCategory: React.SetStateAction<string>
+  ) => {
     setCategory(selectedCategory);
     setClicked(false); // Close the dropdown after selection
   };
@@ -85,36 +85,33 @@ function ProductManagement() {
       price,
       description,
       category,
-      img:UploadedImages,
-      owner:ownerId,
-
+      img: UploadedImages[0] || "",
+      owner: ownerId,
     };
 
     try {
       const response = await fetch("http://localhost:5000/product/pro", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(productData), // Send productData directly
-
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData), // Send productData directly
       });
 
       if (!response.ok) {
-          const errorData = await response.json();
-          console.error("Error response:", errorData);
-          throw new Error("Failed to add to cart");
+        const errorData = await response.json();
+        console.error("Error response:", errorData);
+        throw new Error("Failed to add to cart");
       }
 
       const cartResponse: Product = await response.json();
-      
+
       alert("Added to product!");
-      
-  } catch (error) {
+    } catch (error) {
       console.error("Error adding to product:", error);
-      console.log("product data:",productData);
+      console.log("product data:", productData);
       alert("Error adding to cart. Please try again.");
-  }
+    }
   };
 
   return (
@@ -122,7 +119,11 @@ function ProductManagement() {
       <Header />
       <div className="w-full h-full flex flex-col">
         <div className="w-full flex-grow flex">
-          <div className={`relative ${opened ? "w-64" : "w-16"} bg-white h-screen transition-width duration-300`}>
+          <div
+            className={`relative ${
+              opened ? "w-64" : "w-16"
+            } bg-white h-screen transition-width duration-300`}
+          >
             <div className="flex flex-col">
               <Bars3Icon
                 onClick={sideBarDisplay}
@@ -134,7 +135,9 @@ function ProductManagement() {
                     <li className="p-4">
                       <Link
                         to="/category"
-                        className={`hover:underline ${activeLink === "/Add" ? "underline" : ""}`}
+                        className={`hover:underline ${
+                          activeLink === "/Add" ? "underline" : ""
+                        }`}
                         onClick={() => handleLinkClick("/Add")}
                       >
                         Add Product
@@ -143,7 +146,9 @@ function ProductManagement() {
                     <li className="p-4">
                       <Link
                         to="/productList"
-                        className={`hover:underline ${activeLink === "/List" ? "underline" : ""}`}
+                        className={`hover:underline ${
+                          activeLink === "/List" ? "underline" : ""
+                        }`}
                         onClick={() => handleLinkClick("/List")}
                       >
                         List Product
@@ -194,15 +199,29 @@ function ProductManagement() {
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                     />
-                    <span onClick={OnclickHandler} className="flex items-center justify-center p-2 cursor-pointer">
+                    <span
+                      onClick={OnclickHandler}
+                      className="flex items-center justify-center p-2 cursor-pointer"
+                    >
                       <ChevronDownIcon className="h-5 w-5 text-gray-400" />
                     </span>
                   </div>
                   {clicked && (
                     <div className=" bg-slate-50 ml-64 border mb-36 max-h-40 w-56 overflow-x-hidden overflow-y-auto border-gray-300 rounded flex">
                       <ul className="text-center    w-56 ">
-                        {["Clothes", "Cars", "Supplements", "Houses", "Electronics", "Shoes"].map((category) => (
-                          <li key={category} className="py-2 border shadow-md rounded-sm hover:bg-fuchsia-900 cursor-pointer" onClick={() => handleCategorySelect(category)}>
+                        {[
+                          "clothes",
+                          "cars",
+                          "supplements",
+                          "houses",
+                          "electronics",
+                          "shoes",
+                        ].map((category) => (
+                          <li
+                            key={category}
+                            className="py-2 border shadow-md rounded-sm hover:bg-fuchsia-900 cursor-pointer"
+                            onClick={() => handleCategorySelect(category)}
+                          >
                             {category}
                           </li>
                         ))}

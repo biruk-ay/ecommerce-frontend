@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import topImage from "../assets/cars.png";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 
 function Category() {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function Category() {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [price, setPrice] = useState(150);
+  const [price, setPrice] = useState(10000);
   const [filteredItems, setFilteredItems] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,10 +32,35 @@ function Category() {
       const filtered = filteredProducts.filter(
         (product: { price: number }) => product.price <= price
       );
+
       setFilteredItems(filtered);
       setProducts(filteredProducts);
     } catch (error) {
-      console.error(error);
+      //   try {
+      //     const apiEndpoint = `http://localhost:5000/product/category/${category}`;
+      //     const response = await fetch(apiEndpoint);
+      //     if (!response.ok) {
+      //         throw new Error("Network response was not ok");
+      //     }
+      //     const data = await response.json();
+      //     // Filter products by category
+      //     const filteredProducts = data.filter(
+      //         (product: { category: string }) => product.category === category
+      //     );
+      //     // Further filter products by price
+      //     const filtered = filteredProducts.filter(
+      //         (product: { price: number }) => product.price <= price
+      //     );
+      //     // Parse image URLs (assuming each product has an 'img' property)
+      //     const updatedFiltered = filtered.map((product: { img: string; }) => {
+      //         const parsedImageUrl = JSON.parse(product.img.replace(/'/g, '"'))[0]; // Adjust based on actual structure
+      //         return { ...product, img: parsedImageUrl }; // Include parsed image URL
+      //     });
+      //     // Update state with filtered products and their images
+      //     setFilteredItems(updatedFiltered);
+      //     setProducts(filteredProducts);
+      //     console.log("Filtered products:", updatedFiltered);
+      // }
     } finally {
       setLoading(false);
     }
@@ -50,14 +75,23 @@ function Category() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
-  }
-
+    return (
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <p className="text-xl font-semibold text-gray-700 animate-pulse">
+                Loading...
+            </p>
+        </div>
+    );
+}
+  const handleBackClick = () => {
+    window.history.back();
+  };
   return (
     <div>
       <Header />
       <div className="container mx-auto px-4">
         <h1 className="text-center font-heading text-3xl sm:text-4xl md:text-6xl mt-10">
+          <ArrowLeftIcon className="h-6 w-8 mr-2" onClick={handleBackClick} />
           {selectedOption} Products
         </h1>
         <div className="flex flex-col md:flex-row mt-10 justify-between gap-5">
@@ -117,7 +151,7 @@ function Category() {
                 >
                   <img
                     className="w-full h-48 object-cover"
-                    src={topImage}
+                    src={product.img}
                     alt={product.name}
                   />
                   <div className="p-4">
@@ -136,10 +170,6 @@ function Category() {
                     >
                       Details
                     </button>
-                    {/* Uncomment to enable cart functionality */}
-                    {/* <button onClick={() => addToCart(ownerId, product.productId)} className="w-full mt-2 bg-green-600 text-white font-semibold py-2 rounded-lg hover:bg-green-700 transition duration-300">
-                      Add to Cart
-                    </button> */}
                   </div>
                 </div>
               ))
