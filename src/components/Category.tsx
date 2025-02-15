@@ -100,7 +100,7 @@ function Category() {
             <input
               type="range"
               min="0"
-              max="100"
+              max="10000"
               value={price}
               onChange={handleSliderChange}
               className="w-full"

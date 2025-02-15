@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import axios from "axios";
 import { data, Link } from "react-router-dom";
-import { Bars3Icon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon, Bars3Icon } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 
@@ -91,7 +91,9 @@ function ProductList() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const totalPages = Math.ceil(products.length / itemsPerPage);
-
+  const handleBackClick = () => {
+    window.history.back();
+  };
   return (
     <>
       <Header />
@@ -136,7 +138,7 @@ function ProductList() {
             </div>
           </div>
           <div className=" m-16 container mx-auto p-4 rounded-3xl">
-            <h2 className="text-2xl font-bold mb-4">List of Products</h2>
+            <h2 className="text-2xl font-bold mb-4"><ArrowLeftIcon className="h-6 w-8 mr-2" onClick={handleBackClick} />List of Products</h2>
             <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
               <thead className="bg-gray-200">
                 <tr>

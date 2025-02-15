@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "./Header";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import img from "../assets/img.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -113,7 +113,9 @@ function ProductManagement() {
       alert("Error adding to cart. Please try again.");
     }
   };
-
+  const handleBackClick = () => {
+    window.history.back();
+  };
   return (
     <>
       <Header />
@@ -161,7 +163,8 @@ function ProductManagement() {
           </div>
           <div className="bg-white flex-grow flex flex-col sm:flex-row justify-evenly p-4">
             <div className="flex flex-col text-black w-full max-w-lg">
-              <h1 className="text-4xl">Add Product</h1>
+              <h1 className="text-4xl">           <ArrowLeftIcon className="h-6 w-8 mr-2" onClick={handleBackClick} />
+              Add Product</h1>
               <div className="mt-5">
                 <h3 className="text-2xl">Description</h3>
                 <div className="border-2 border-gray-300 w-full h-[434px] mt-5 shadow-md rounded-xl">
@@ -216,6 +219,9 @@ function ProductManagement() {
                           "houses",
                           "electronics",
                           "shoes",
+                          "books",
+                          "kitchen",
+                          "toys",
                         ].map((category) => (
                           <li
                             key={category}
@@ -302,7 +308,8 @@ function ProductManagement() {
           <button
             className="border border-gray-500 rounded-3xl bg-violet-600 text-white w-56 h-10"
             onClick={productAdd}
-          >
+          >         
+
             Add Product
           </button>
         </div>

@@ -181,7 +181,7 @@ function ProductDetail() {
                 className="flex bg-green-300 rounded-full justify-center items-center"
               >
                 <img
-                  src={topImage}
+                  src={products.img}
                   alt={`Thumbnail ${index}`}
                   className="rounded-full md:w-24 md:h-24 w-16 h-16"
                 />
