@@ -13,6 +13,7 @@ interface Product {
   description: string;
   category: string;
   price: number;
+  img:string;
 }
 
 // Define a type for your location state

@@ -14,7 +14,7 @@ const RegisterForm = () => {
   const handleRegister = (evt: React.FormEvent) => {
     evt.preventDefault();
     dispatch(register({name: name, email: email, password: password}));
-    navigator('/resource')
+    navigator('/')
   }
   return (
     <>

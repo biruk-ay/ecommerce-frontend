@@ -259,6 +259,9 @@ import { useAppSelector } from '../apps/store/store';
 import { selectUserId, selectUserName } from '../apps/auth/application/slice/AuthSlice';
 
 function ProductDetail() {
+ 
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const productId = useParams<{ productId?: string }>().productId || '';
     const [products, setProducts] = useState<ProductDetails[]>([]);
     const username = useAppSelector(selectUserName);
@@ -289,16 +292,47 @@ function ProductDetail() {
         }
     };
 
+    // useEffect(() => {
+    //     const fetchProduct = async () => {
+    //         const response = await fetch("http://localhost:5000/product/see/67aee4f59ba2b188b9140a0d");
+    //         const data = await response.json();
+    //         setProducts(data);
+    //         console.log("pro:", data);
+    //     };
+
+    //     fetchProduct();
+    // }, [productId]);
+
     useEffect(() => {
         const fetchProduct = async () => {
-            const response = await fetch(`http://localhost:5000/product/see/${productId}`);
-            const data = await response.json();
-            setProducts(data);
-            console.log("pro:", data);
+            setLoading(true); // Start loading
+            setError(null);   // Reset any previous error
+            try {
+                const response = await fetch("http://localhost:5000/product/see/67aee4f59ba2b188b9140a0d");
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                
+                // Parse the image URL
+                const parsedImageUrl = JSON.parse(data.img.replace(/'/g, '"'))[0]; // Adjust based on your actual data structure
+                setProducts({ ...data, img: parsedImageUrl }); // Include parsed image URL in state
+                console.log("Product data:", data);
+            } catch (err) {
+                setError(err.message); // Capture error message
+                console.error("Fetch error:", err);
+            } finally {
+                setLoading(false); // End loading
+            }
         };
 
-        fetchProduct();
-    }, [productId]);
+        if (productId) {
+            fetchProduct();
+        }
+    }, [productId]); // Fetch when productId changes
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     interface ProductDetails {
         productId: string;
@@ -334,14 +368,14 @@ function ProductDetail() {
                             <div className="bg-purple-200 p-2 flex flex-col gap-3 text-start rounded-lg">
                                 <h1 className='text-3xl font-roboto font-bold text-purple-950'>{products.name}</h1>
                                 <h3>About</h3>
-                                <h3>{products.description}</h3>
+                                <h3>{products.img}</h3>
                                 <hr className='border-gray-400' />
                                 <h3>{products.description}</h3>
                             </div>
                         </div>
 
                         <div className="flex bg-green-300 rounded-full w-96 h-72 justify-center items-center mx-4">
-                            <img src={topImage} alt="Product" className='rounded-full w-96 h-72' />
+                            <img src={products.img} alt="Product" className='rounded-full w-96 h-72' />
                         </div>
 
                         <div className="flex flex-col text-white w-full sm:w-1/3 justify-center items-center mb-6 sm:mb-0">
