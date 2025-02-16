@@ -13,6 +13,8 @@ import {
   selectUserRole,
 } from "../apps/auth/application/slice/AuthSlice";
 import Footer from "./Footer";
+import { BASE_URL } from "../configs/config";
+
 function EditP() {
   const [user, setUser] = useState([]);
   const navigator = useNavigate();
@@ -30,7 +32,7 @@ function EditP() {
   }, []);
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:5000/user/${id}`);
+    const result = await axios.get(`${BASE_URL}user/${id}`);
 
     setUser(result.data);
     console.log("userinfo:", user);

@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { BASE_URL } from "../configs/config";
 
 function Category() {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ function Category() {
 
   const fetchData = async (category: string) => {
     try {
-      const apiEndpoint = `http://localhost:5000/product/category/${category}`;
+      const apiEndpoint =  `${BASE_URL}product/category/${category}`;
+      // const apiEndpoint = `http://localhost:5000/product/category/${category}`;
       const response = await axios.get(apiEndpoint);
       const filteredProducts = response.data.filter(
         (product: { category: string }) => product.category === category

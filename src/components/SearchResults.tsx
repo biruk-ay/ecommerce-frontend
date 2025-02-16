@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { BASE_URL } from "../configs/config";
 
 const SearchResults: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -21,7 +22,7 @@ const SearchResults: React.FC = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          "http://localhost:5000/product/allProducts"
+          `${BASE_URL}product/allProducts`
         ); 
         if (!response.ok) {
           throw new Error("Failed to fetch products");

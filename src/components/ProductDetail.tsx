@@ -10,6 +10,7 @@ import {
   selectUserName,
 } from "../apps/auth/application/slice/AuthSlice";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { BASE_URL } from "../configs/config";
 
 function ProductDetail() {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ function ProductDetail() {
 
   const addToCart = async (owner: string, productId: string) => {
     try {
-      const response = await fetch("http://localhost:5000/cart/add", {
+      const response = await fetch(`${BASE_URL}cart/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,7 +52,7 @@ function ProductDetail() {
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:5000/product/see/${productId}`
+          `${BASE_URL}product/see/${productId}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

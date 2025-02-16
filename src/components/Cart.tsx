@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import PaymentProvider from "../apps/payment/di/PaymentProvider";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
+import { BASE_URL } from "../configs/config";
 
 interface CartItem {
   productId: string;
@@ -44,7 +45,7 @@ function Cart() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/cart/${ownerId}`);
+        const response = await fetch(`${BASE_URL}cart/${ownerId}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch cart");
@@ -78,7 +79,7 @@ function Cart() {
 
   const handleDelete = async (ownerId: string, productId: string) => {
     try {
-      const response = await fetch("http://localhost:5000/cart/remove", {
+      const response = await fetch(`${BASE_URL}/cart/remove`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +109,7 @@ function Cart() {
     if (newQuantity < 0) return;
 
     try {
-      const response = await fetch("http://localhost:5000/cart/update", {
+      const response = await fetch(`${BASE_URL}cart/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

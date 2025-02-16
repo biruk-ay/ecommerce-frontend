@@ -4,13 +4,19 @@ import { useAppDispatch, useAppSelector } from "../apps/store/store";
 import {
   logout,
   selectUserName,
+  selectUserRole,
 } from "../apps/auth/application/slice/AuthSlice";
 import cartIcon from "../assets/Icon.svg";
 
 const Header = () => {
+  enum UserType {
+    admin = "admin",
+    user = "user"
+  }
   const navigator = useNavigate();
   const [showPanel,setShowPanel]=useState(false);
   const username = useAppSelector(selectUserName);
+  const role = useAppSelector(selectUserRole);
   const dispatch = useAppDispatch();
   const handleLogout = (evt: React.FormEvent) => {
     evt.preventDefault();
@@ -55,40 +61,84 @@ const handleToggle =()=>{
         </form>
       </div>
       <div className="md:hidden ">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6" onClick={handleToggle}>
-  <path fillRule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
-</svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="size-6"
+          onClick={handleToggle}
+        >
+          <path
+            fillRule="evenodd"
+            d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
+            clipRule="evenodd"
+          />
+        </svg>
       </div>
 
-  <div className=" md:flex auto gap-1 text-sm sm:text-lg relative sm:gap-4 font-roboto  font-bold">
+      <div className=" md:flex auto gap-1 text-sm sm:text-lg relative sm:gap-4 font-roboto  font-bold">
         {username ? (
-          <div className={`flex ${showPanel ? 'flex-col absolute mt-8 -ml-20 p-3  bg-slate-100 rounded-md text-purple-950' : 'hidden md:flex md:flex-row'} p-2 md:relative`}>               <Link to="/profile" className="flex flex-col items-center">
-              <span className="flex items-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-              <span className="text-center">{username}</span>
-            </Link>
+          (role as UserType) === UserType.admin ? (
+            <>
+              <Link to="/admin" className="flex flex-col items-center">
+                <span className="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span className="text-center">{username}</span>
+              </Link>
 
-            <button className="hover:underline" onClick={handleLogout}>
-              Logout
-            </button>
-            <Link to={"/cart"}>
-              <img className="hover:underline" src={cartIcon}></img>{" "}
-            </Link>
-           </div>
-         
-          
+              <button className="hover:underline" onClick={handleLogout}>
+                Logout
+              </button>
+              <Link to={"/cart"}>
+                <img className="hover:underline" src={cartIcon}></img>{" "}
+              </Link>
+            </>
+          ) : (
+            <div
+              className={`flex ${
+                showPanel
+                  ? "flex-col absolute mt-8 -ml-20 p-3 z-0 bg-slate-100 rounded-md text-purple-950"
+                  : "hidden md:flex md:flex-row"
+              } p-2 md:relative`}
+            >
+              {" "}
+              <Link to="/profile" className="flex flex-col items-center">
+                <span className="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span className="text-center">{username}</span>
+              </Link>
+              <button className="hover:underline" onClick={handleLogout}>
+                Logout
+              </button>
+              <Link to={"/cart"}>
+                <img className="hover:underline" src={cartIcon}></img>{" "}
+              </Link>
+            </div>
+          )
         ) : (
           <>
             <Link to={"/user/login"} className="hover:underline">
@@ -100,7 +150,6 @@ const handleToggle =()=>{
           </>
         )}
       </div>
-     
     </header>
   );
 };

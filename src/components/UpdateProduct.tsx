@@ -3,6 +3,7 @@ import Header from "./Header";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { BASE_URL } from "../configs/config";
 
 function UpdateProduct() {
   const { id } = useParams();
@@ -48,7 +49,7 @@ function UpdateProduct() {
   }, []);
   const loadUser = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/product/see/${id}`);
+      const response = await fetch(`${BASE_URL}product/see/${id}`);
 
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
@@ -77,7 +78,7 @@ function UpdateProduct() {
       img,
     };
 
-    const apiUrl = `http://localhost:5000/product/${id}`;
+    const apiUrl = `${BASE_URL}product/${id}`;
     try {
       const response = await fetch(apiUrl, {
         method: "PUT",

@@ -6,9 +6,9 @@ import img from "../assets/img.svg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import StorageProvider from "../di/StorageProvider";
-import { BASE_URL } from "../configs/config";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 import { useAppSelector } from "../apps/store/store";
+import { BASE_URL } from "../configs/config";
 
 function ProductManagement() {
   const ownerId = useAppSelector(selectUserId);
@@ -90,7 +90,7 @@ function ProductManagement() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/product/pro", {
+      const response = await fetch(`${BASE_URL}product/pro`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

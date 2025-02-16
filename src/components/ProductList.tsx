@@ -5,7 +5,7 @@ import { data, Link } from "react-router-dom";
 import { ArrowLeftIcon, Bars3Icon } from "@heroicons/react/16/solid";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
-
+import { BASE_URL } from "../configs/config";
 
 interface Product {
   productId: number;
@@ -45,7 +45,7 @@ function ProductList() {
   const fetchProducts = async () => {
     try {
       const response = await axios.get<Product[]>(
-        `http://localhost:5000/product/ownerProducts/${id}`
+        `${BASE_URL}product/ownerProducts/${id}`
       ); // Fake API
       setProducts(response.data);
       console.log("data;", products);
@@ -60,7 +60,7 @@ function ProductList() {
     console.log(`Attempting to delete product with ID: ${id}`);
     if (window.confirm("Are you sure you want to delete this record?")) {
       try {
-        const response = await fetch(`http://localhost:5000/product/${id}`, {
+        const response = await fetch(`${BASE_URL}product/${id}`, {
           method: "DELETE",
         });
 
