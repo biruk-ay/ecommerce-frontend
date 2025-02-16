@@ -20,6 +20,15 @@ interface CartItem {
 }
 function Cart() {
   const ownerId = useAppSelector(selectUserId) as string;
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const deliveryFee = 25;
+  const totalAmount = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const totalWithDelivery = totalAmount + deliveryFee;
   const handleCheckout = async () => {
     const result = await PaymentProvider.providePayment().checkout(
       ownerId,
@@ -30,9 +39,7 @@ function Cart() {
   const handleBackClick = () => {
     window.history.back();
   };
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+ 
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -129,12 +136,7 @@ function Cart() {
       console.error("Fetch error:", error);
     }
   };
-  const deliveryFee = 25;
-  const totalAmount = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const totalWithDelivery = totalAmount + deliveryFee;
+  
   return (
     <>
       <Header />

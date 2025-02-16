@@ -9,6 +9,7 @@ import cartIcon from "../assets/Icon.svg";
 
 const Header = () => {
   const navigator = useNavigate();
+  const [showPanel,setShowPanel]=useState(false);
   const username = useAppSelector(selectUserName);
   const dispatch = useAppDispatch();
   const handleLogout = (evt: React.FormEvent) => {
@@ -16,7 +17,9 @@ const Header = () => {
     dispatch(logout());
     navigator("/user/login");
   };
-
+const handleToggle =()=>{
+  setShowPanel(!showPanel);
+}
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
@@ -51,11 +54,15 @@ const Header = () => {
           <button type="submit">Search</button>
         </form>
       </div>
+      <div className="md:hidden ">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6" onClick={handleToggle}>
+  <path fillRule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
+</svg>
+      </div>
 
-      <div className="flex auto gap-1 text-sm sm:text-lg sm:gap-4 font-roboto font-bold">
+  <div className=" md:flex auto gap-1 text-sm sm:text-lg relative sm:gap-4 font-roboto  font-bold">
         {username ? (
-          <>
-            <Link to="/profile" className="flex flex-col items-center">
+          <div className={`flex ${showPanel ? 'flex-col absolute mt-8 -ml-20 p-3  bg-slate-100 rounded-md text-purple-950' : 'hidden md:flex md:flex-row'} p-2 md:relative`}>               <Link to="/profile" className="flex flex-col items-center">
               <span className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +86,9 @@ const Header = () => {
             <Link to={"/cart"}>
               <img className="hover:underline" src={cartIcon}></img>{" "}
             </Link>
-          </>
+           </div>
+         
+          
         ) : (
           <>
             <Link to={"/user/login"} className="hover:underline">
@@ -91,6 +100,7 @@ const Header = () => {
           </>
         )}
       </div>
+     
     </header>
   );
 };
