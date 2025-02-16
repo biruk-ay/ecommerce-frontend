@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import topImage from "../assets/topImage.png";

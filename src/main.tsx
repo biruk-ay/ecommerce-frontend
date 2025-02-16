@@ -4,22 +4,8 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { persistor, store } from './apps/store/store';
-import ProductManagement from './components/ProductManagement';
-import Home from './components/Home';
-import ProductList from './components/ProductList';
-
-import Cart from './components/Cart';
-import LoginForm from './apps/auth/presentation/pages/Login';
-
-import UpdateProduct from './components/UpdateProduct';
-import Category from './components/Category';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import ProductDetail from './components/ProductDetail';
-import SearchComponent from './components/SearchComponent';
-
-
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

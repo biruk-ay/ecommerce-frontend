@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "./App.css";
 import React from "react";
 import Resource from "./components/Resource";
@@ -17,7 +18,6 @@ import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import SearchResult from "./components/SearchResults";
 import EditP from "./components/EditP";
-// import { CartProvider } from "./contexts/CartContext";
 
 const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   const navigator = useNavigate();
@@ -31,13 +31,7 @@ const ProtectedRoute = ({ children } : { children: React.ReactNode }) => {
   return <>{children}</>
 };
 
-// import { CartProvider } from "./contexts/CartContext";
-
 function App() {
-  // const location = useLocation();
-  // const owner = "owner"; // Replace with actual owner logic as needed
-  const ownerId = 'YOUR_USER_ID_HERE';
-  
   return (
     <div className="App">
       

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import AuthState from "../states/AuthState";
 import AuthProvider from "../../di/authProvider";

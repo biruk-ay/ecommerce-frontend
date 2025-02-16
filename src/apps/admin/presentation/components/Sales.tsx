@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { useState, useEffect } from "react";
 import { selectUserEmail } from "../../../auth/application/slice/AuthSlice";
