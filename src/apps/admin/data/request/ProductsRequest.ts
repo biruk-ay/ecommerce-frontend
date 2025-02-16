@@ -1,10 +1,10 @@
 import Request from "../../../../lib/request/request"
 
-export default class DashRequest extends Request<string> {
+export default class ProductRequest extends Request<string> {
 
     constructor(email: string, token: string) {
         super({
-            url: '/admin/info',
+            url: '/admin/products',
             method: "POST",
             data: {
                 "email": email,

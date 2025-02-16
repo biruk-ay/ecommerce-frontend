@@ -5,10 +5,8 @@ import { useAppSelector } from "../../../store/store";
 import AdminProvider from "../../di/AdminProvider";
 const Users = () => {
     const [users, setUsers] = useState([]);
-    // const email = useAppSelector(selectUserEmail);
-    // const token = useAppSelector(selectUserToken);
-    const email = "x@x.com";
-    const token = "dea8b527-aa7e-4932-8041-197e8c6bbe5c";
+    const email = useAppSelector(selectUserEmail);
+    const token = useAppSelector(selectUserToken);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -29,20 +27,19 @@ const Users = () => {
 
             <h1 className="flex text-2xl font-semibold underline justify-center mb-4">Users</h1>
             <table className="w-full justify-center table-auto font-roboto">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
+                <thead className="bg-gray-200">
+                    <tr className="rounded-xl">
+                        <th className="py-2 px-4 border-b text-left text-black">Name</th>
+                        <th className="py-2 px-4 border-b text-left text-black">Email</th>
+                        <th className="py-2 px-4 border-b text-left text-black">Role</th>
                     </tr>
-                    <hr className="flex w-full bg-slate-700"></hr>
                 </thead>
                 <tbody className="">
                     {users.map((user) => (
                         <tr className="" key={user.id}>
-                            <td className="flex justify-center">{user.name}</td>
-                            <td className="pl-40 justify-center">{user.email}</td>
-                            <td className="flex justify-center">{user.role}</td>
+                            <td className="py-2 px-4 border-b">{user.name}</td>
+                            <td className="py-2 px-4 border-b">{user.email}</td>
+                            <td className="py-2 px-4 border-b">{user.role}</td>
                         </tr>
                     ))
                     
