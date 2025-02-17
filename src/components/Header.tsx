@@ -14,7 +14,7 @@ const Header = () => {
     user = "user"
   }
   const navigator = useNavigate();
-  const [showPanel,setShowPanel]=useState(false);
+  const [showPanel, setShowPanel] = useState(false);
   const username = useAppSelector(selectUserName);
   const role = useAppSelector(selectUserRole);
   const dispatch = useAppDispatch();
@@ -23,9 +23,9 @@ const Header = () => {
     dispatch(logout());
     navigator("/user/login");
   };
-const handleToggle =()=>{
-  setShowPanel(!showPanel);
-}
+  const handleToggle = () => {
+    setShowPanel(!showPanel);
+  };
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 

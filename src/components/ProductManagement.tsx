@@ -15,6 +15,15 @@ function ProductManagement() {
   const [UploadedImages, setUploadedImages] = useState<string[]>([]);
   const [originalFiles, setOriginalFiles] = useState<File[]>([]);
   const [images, setImages] = useState<string[]>([]);
+  const [clicked, setClicked] = useState(false);
+  const [opened, setOpened] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [price, setPrice] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [selectedcategory, setSelectedCategory] = useState("");
+  const [activeLink, setActiveLink] = useState("");
 
   const handleUpload = async (files: File[]) => {
     try {
@@ -30,15 +39,7 @@ function ProductManagement() {
       console.error("upload failed ", error);
     }
   };
-  const [clicked, setClicked] = useState(false);
-  const [opened, setOpened] = useState(false);
-  const [update, setUpdate] = useState(false);
-  const [price, setPrice] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [selectedcategory, setSelectedCategory] = useState("");
-  const [activeLink, setActiveLink] = useState("");
+  
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -136,7 +137,7 @@ function ProductManagement() {
                   <ul className="h-full mt-16">
                     <li className="p-4">
                       <Link
-                        to="/category"
+                        to="/addProduct"
                         className={`hover:underline ${
                           activeLink === "/Add" ? "underline" : ""
                         }`}

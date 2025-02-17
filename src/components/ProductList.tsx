@@ -22,8 +22,11 @@ function ProductList() {
   const [clicked, setClicked] = useState(false);
   const [opened, setOpened] = useState(false);
   const [update, setUpdate] = useState(false);
-
+  const [products, setProducts] = useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); 
   const [activeLink, setActiveLink] = useState("");
+  const id = useAppSelector(selectUserId);
 
   const OnclickHandler = () => {
     setClicked(!clicked);
@@ -37,11 +40,8 @@ function ProductList() {
   const handleLinkClick = (path: React.SetStateAction<string>) => {
     setActiveLink(path);
   };
-  const id = useAppSelector(selectUserId);
 
-  const [products, setProducts] = useState<Product[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5); // Number of items per page
+  // Number of items per page
   const fetchProducts = async () => {
     try {
       const response = await axios.get<Product[]>(
