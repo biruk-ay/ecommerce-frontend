@@ -1,44 +1,53 @@
+import * as React from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../../../../components/Header";
 import Footer from "../../../../components/Footer";
 import { useAppDispatch } from "../../../store/store";
 import { login } from "../../application/slice/AuthSlice";
 
+interface FormElements extends HTMLFormControlsCollection {
+  usernameInput: HTMLInputElement
+}
+
+interface FormElementsCollection extends HTMLFormElement {
+  readonly elements: FormElements
+}
+
 const LoginForm = () => {
   const navigator = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const dispatch = useAppDispatch();
-  const handleLogin = (evt: React.FormEvent) => {
+  const handleLogin = async (evt: React.FormEvent) => {
     evt.preventDefault();
-    dispatch(login({name: email, password: password}));
+    await dispatch(login({name: email, password: password}));
     navigator('/')
   }
   
     return (
       <>
       <Header />
-      <div className="flex w-full items-center h-screen justify-center">
-        <div className="bg-login bg-opacity-10 flex flex-col sm:flex-row-reverse items-center justify-center w-full sm:w-1/2 mb-24 h-4/5 sm:h-3/5 rounded-3xl shadow-lg">
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex flex-col items-center justify-center w-full mb-24 shadow-lg bg-login bg-opacity-10 sm:flex-row-reverse sm:w-1/2 h-4/5 sm:h-3/5 rounded-3xl">
           <div className="bg-[#825792] flex flex-col justify-center items-center bg-opacity-5 w-11/12 sm:w-1/2 h-4/5 ml-0 sm:mr-6 rounded-3xl">
             <form
-              className="flex flex-col justify-stretch items-center"
+              className="flex flex-col items-center justify-stretch"
               onSubmit={handleLogin}
             >
-              <div className="text-primary text-3xl font-extrabold font-roboto mb-4">
+              <div className="mb-4 text-3xl font-extrabold text-primary font-roboto">
                 Log In
               </div>
-              <div className="flex flex-col justify-center items-center mb-2">
-                <div className="flex flex-row justify-evenly mb-1">
+              <div className="flex flex-col items-center justify-center mb-2">
+                <div className="flex flex-row mb-1 justify-evenly">
                   <label
-                    className="text-black text-xl font-bold font-roboto mr-28"
+                    className="text-xl font-bold text-black font-roboto mr-28"
                     htmlFor="email"
                   >
                     Email
                   </label>
                   <svg
-                    className="self-end w-5 h-5 ml-32 mb-1"
+                    className="self-end w-5 h-5 mb-1 ml-32"
                     fill="#000000"
                     height="800px"
                     width="800px"
@@ -67,16 +76,16 @@ const LoginForm = () => {
                   onChange={e => setEmail(e.target.value)}
                 ></input>
               </div>
-              <div className="flex flex-col justify-center items-center mb-6">
-                <div className="flex flex-row justify-evenly mb-1">
+              <div className="flex flex-col items-center justify-center mb-6">
+                <div className="flex flex-row mb-1 justify-evenly">
                   <label
-                    className="text-black text-xl font-bold font-roboto mr-28"
+                    className="text-xl font-bold text-black font-roboto mr-28"
                     htmlFor="password"
                   >
                     Password
                   </label>
                   <svg
-                    className="self-end w-5 h-5 ml-24 mb-1"
+                    className="self-end w-5 h-5 mb-1 ml-24"
                     width="800px"
                     height="800px"
                     viewBox="0 0 24 24"
@@ -103,7 +112,7 @@ const LoginForm = () => {
                 ></input>
               </div>
               <button
-                className="w-4/5 h-12 bg-primary text-white text-xl font-bold font-roboto rounded-3xl"
+                className="w-4/5 h-12 text-xl font-bold text-white bg-primary font-roboto rounded-3xl"
                 type="submit"
                 >
                 Log In
@@ -112,21 +121,21 @@ const LoginForm = () => {
           </div>
           <div className="bg-[#652385] bg-opacity-40 flex flex-col justify-center items-center w-11/12 sm:w-1/2 h-3/5 mr-0 sm:ml-6 rounded-3xl">
             <img
-              className="h-11 w-11 mr-4"
+              className="mr-4 h-11 w-11"
               src="../../logo.png"
               alt="Company Logo"
             ></img>
-            <div className="text-primary font-cursive font-semibold text-lg sm:text-2xl mr-4">
+            <div className="mr-4 text-lg font-semibold text-primary font-cursive sm:text-2xl">
               gebeya
             </div>
-            <div className="text-primary font-roboto font-extrabold text-2xl mb-4">
+            <div className="mb-4 text-2xl font-extrabold text-primary font-roboto">
               Welcome to gebeya
             </div>
-            <p className="text-primary font-roboto font-bold text-center text-sm mb-5 mr-5 ml-5">
+            <p className="mb-5 ml-5 mr-5 text-sm font-bold text-center text-primary font-roboto">
               Enjoy shopping with us!
             </p>
             <Link
-              className="flex w-3/5 h-12 bg-primary text-white text-xl font-bold justify-center font-roboto rounded-3xl"
+              className="flex justify-center w-3/5 h-12 text-xl font-bold text-white bg-primary font-roboto rounded-3xl"
               to={"/user/Register"}
             >
               <button>Sign Up</button>
