@@ -11,6 +11,7 @@ import {
 } from "../apps/auth/application/slice/AuthSlice";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 import { BASE_URL } from "../configs/config";
+import Loading from "./Loading";
 
 function ProductDetail() {
   const [loading, setLoading] = useState(true);
@@ -79,11 +80,12 @@ function ProductDetail() {
   }, [productId]); // Fetch when productId changes
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <p className="text-xl font-semibold text-gray-700 animate-pulse">
-          Loading...
-        </p>
-      </div>
+      // <div className="flex items-center justify-center h-screen bg-gray-100">
+      //   <p className="text-xl font-semibold text-gray-700 animate-pulse">
+      //     Loading...
+      //   </p>
+      // </div>
+      <Loading />
     );
   }
   if (error) return <div>Error: {error}</div>;
@@ -117,20 +119,20 @@ function ProductDetail() {
       <Header />
 
       <>
-        <div className="flex flex-col justify-evenly items-center p-8 h-auto">
-          <div className="w-full justify-start">
+        <div className="flex flex-col items-center h-auto p-8 justify-evenly">
+          <div className="justify-start w-full">
             <h3>
               <ArrowLeftIcon
-                className="h-6 w-8 mr-2"
+                className="w-8 h-6 mr-2"
                 onClick={handleBackClick}
               />{" "}
               Goback
             </h3>
           </div>
-          <div className=" grid md:grid-cols-3 grid-cols-1 md:gap-1 gap-y-4 justify-evenly items-center h-auto w-full">
-            <div className=" flex md:justify-end justify-center  ">
-              <div className="bg-purple-200  p-3 flex flex-col gap-6 text-start h-auto w-7/12 rounded-lg">
-                <h1 className="text-3xl font-roboto font-bold text-purple-950">
+          <div className="grid items-center w-full h-auto grid-cols-1 md:grid-cols-3 md:gap-1 gap-y-4 justify-evenly">
+            <div className="flex justify-center md:justify-end">
+              <div className="flex flex-col w-7/12 h-auto gap-6 p-3 bg-purple-200 rounded-lg text-start">
+                <h1 className="text-3xl font-bold font-roboto text-purple-950">
                   {products.name}
                 </h1>
                 <h3>About</h3>
@@ -139,36 +141,36 @@ function ProductDetail() {
                 <h3>{products.description}</h3>
               </div>
             </div>
-            <div className=" flex justify-evenly items-center">
-              <div className=" flex items-center w-full h-auto">
+            <div className="flex items-center justify-evenly">
+              <div className="flex items-center w-full h-auto ">
                 <img
                   src={products.img}
                   alt="Product"
-                  className="rounded-full mx-auto w-72 h-72 i border-4 shadow-lg"
+                  className="mx-auto border-4 rounded-full shadow-lg w-72 h-72 i"
                 />
               </div>
             </div>
-            <div className=" flex md:justify-start justify-center">
-              <div className="flex gap-3 w-7/12 text-white flex-col mb-6">
-                <div className="bg-purple-200 justify-evenly items-start w-auto rounded-md gap-3 p-2 flex flex-col">
+            <div className="flex justify-center md:justify-start">
+              <div className="flex flex-col w-7/12 gap-3 mb-6 text-white">
+                <div className="flex flex-col items-start w-auto gap-3 p-2 bg-purple-200 rounded-md justify-evenly">
                   <div className="flex flex-row gap-4">
-                    <h3 className="font-bold text-black text-xl">Price</h3>
-                    <h3 className="font-bold text-black text-xl">
+                    <h3 className="text-xl font-bold text-black">Price</h3>
+                    <h3 className="text-xl font-bold text-black">
                       {products.price}
                     </h3>
                   </div>
                   <div className="flex flex-row gap-3 mb-4">
-                    <h3 className="font-bold text-black text-xl">Color</h3>
-                    <div className="rounded-full bg-red-400 w-5 h-5"></div>
-                    <div className="rounded-full bg-green-400 w-5 h-5"></div>
+                    <h3 className="text-xl font-bold text-black">Color</h3>
+                    <div className="w-5 h-5 bg-red-400 rounded-full"></div>
+                    <div className="w-5 h-5 bg-green-400 rounded-full"></div>
                   </div>
                 </div>
-                <button className="bg-purple-950 rounded-md w-full p-2">
+                <button className="w-full p-2 rounded-md bg-purple-950">
                   Buy Now
                 </button>
                 <button
                   onClick={() => addToCart(ownerId, productId)}
-                  className="bg-purple-950 rounded-md w-full p-2"
+                  className="w-full p-2 rounded-md bg-purple-950"
                 >
                   Add to Cart
                 </button>
@@ -176,22 +178,22 @@ function ProductDetail() {
             </div>
           </div>
 
-          <div className="flex flex-row justify-around items-center gap-3">
+          <div className="flex flex-row items-center justify-around gap-3">
             {[...Array(4)].map((_, index) => (
               <div
                 key={index}
-                className="flex bg-green-300 rounded-full justify-center items-center"
+                className="flex items-center justify-center bg-green-300 rounded-full"
               >
                 <img
                   src={products.img}
                   alt={`Thumbnail ${index}`}
-                  className="rounded-full md:w-24 md:h-24 w-16 h-16"
+                  className="w-16 h-16 rounded-full md:w-24 md:h-24"
                 />
               </div>
             ))}
           </div>
-          <div className="bg-white w-full flex flex-col justify-evenly items-start p-4">
-            <h3 className="font-bold text-2xl">Description</h3>
+          <div className="flex flex-col items-start w-full p-4 bg-white justify-evenly">
+            <h3 className="text-2xl font-bold">Description</h3>
             <h4>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi
               laborum doloribus ab nesciunt! Expedita, nihil amet odit dolore

@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../../../../components/Header";
 import Footer from "../../../../components/Footer";
-import { useAppDispatch } from "../../../store/store";
-import { login } from "../../application/slice/AuthSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { login, selectLoading } from "../../application/slice/AuthSlice";
+import Loading from '../../../../components/Loading';
+import SMStatus from '../../../../lib/sm/state/smStatus';
 
 interface FormElements extends HTMLFormControlsCollection {
   usernameInput: HTMLInputElement
@@ -16,6 +18,7 @@ interface FormElementsCollection extends HTMLFormElement {
 
 const LoginForm = () => {
   const navigator = useNavigate();
+  const loading = useAppSelector(selectLoading);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useAppDispatch();
@@ -24,6 +27,8 @@ const LoginForm = () => {
     await dispatch(login({name: email, password: password}));
     navigator('/')
   }
+
+  if(loading === SMStatus.loading) return <Loading />
   
     return (
       <>

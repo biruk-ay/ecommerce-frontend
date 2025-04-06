@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import { BASE_URL } from "../configs/config";
+import Loading from "./Loading";
 
 const SearchResults: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
@@ -65,13 +66,13 @@ const SearchResults: React.FC = () => {
     <>
       <Header />
       <div>
-        <h1 className="font-bold text-3xl text-purple-950 text-center mt-4">
+        <h1 className="mt-4 text-3xl font-bold text-center text-purple-950">
           Search Results for "{searchTerm}"
         </h1>
-        {loading && <p>Loading...</p>}
+        {loading && <Loading />}
 
-        <div className="flex flex-col md:flex-row mt-10 justify-between gap-5">
-          <div className="md:hidden sticky top-0 w-full  ">
+        <div className="flex flex-col justify-between gap-5 mt-10 md:flex-row">
+          <div className="sticky top-0 w-full md:hidden ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -92,7 +93,7 @@ const SearchResults: React.FC = () => {
               showPanel ? "" : "hidden md:block"
             }`}
           >
-            <h2 className="text-2xl font-bold mb-4">Adjust Price</h2>
+            <h2 className="mb-4 text-2xl font-bold">Adjust Price</h2>
             <input
               type="range"
               min="0"
@@ -106,8 +107,8 @@ const SearchResults: React.FC = () => {
             <ul>
               {["Brand A", "Brand B", "Brand C"].map((brand, index) => (
                 <li key={index}>
-                  <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                    <input type="checkbox" className="h-4 w-4" />
+                  <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                    <input type="checkbox" className="w-4 h-4" />
                     <span className="text-sm">{brand}</span>
                   </div>
                 </li>
@@ -117,8 +118,8 @@ const SearchResults: React.FC = () => {
             <ul>
               {["Seller X", "Seller Y", "Seller Z"].map((seller, index) => (
                 <li key={index}>
-                  <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                    <input type="checkbox" className="h-4 w-4" />
+                  <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                    <input type="checkbox" className="w-4 h-4" />
                     <span className="text-sm">{seller}</span>
                   </div>
                 </li>
@@ -129,8 +130,8 @@ const SearchResults: React.FC = () => {
               {["Category 1", "Category 2", "Category 3"].map(
                 (category, index) => (
                   <li key={index}>
-                    <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                      <input type="checkbox" className="h-4 w-4" />
+                    <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                      <input type="checkbox" className="w-4 h-4" />
                       <span className="text-sm">{category}</span>
                     </div>
                   </li>
@@ -140,31 +141,31 @@ const SearchResults: React.FC = () => {
           </div>
 
           <div
-            className="md:w-2/3 lg:w-3/4 py-1  w-11/12 mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-end gap-y-20 gap-x-0 bg-slate-100 mb-5"
+            className="grid justify-end w-11/12 grid-cols-1 py-1 mx-auto mb-5 md:w-2/3 lg:w-3/4 lg:grid-cols-3 md:grid-cols-2 justify-items-center gap-y-20 gap-x-0 bg-slate-100"
             style={{ marginTop: "20px" }}
           >
             {filteredData.length > 0
               ? filteredData.map((item) => (
-                  <div className="w-72 bg-white shadow-lg rounded-xl overflow-hidden ">
+                  <div className="overflow-hidden bg-white shadow-lg w-72 rounded-xl ">
                     <img
-                      className="w-full h-auto object-cover"
+                      className="object-cover w-full h-auto"
                       src={item.img}
                       alt={item.name}
                     />
                     <div className="px-6 py-4">
-                      <h1 className="font-semibold text-lg text-gray-800 hover:text-indigo-600 transition duration-300">
+                      <h1 className="text-lg font-semibold text-gray-800 transition duration-300 hover:text-indigo-600">
                         {item.name}
                       </h1>
-                      <p className="text-gray-600 text-sm mt-1">
+                      <p className="mt-1 text-sm text-gray-600">
                         {item.description}
                       </p>
-                      <h2 className="text-gray-800 text-lg mt-2 font-bold">
+                      <h2 className="mt-2 text-lg font-bold text-gray-800">
                         ${item.price.toFixed(2)}
                       </h2>
 
                       <button
                         onClick={() => handleProductClick(item.productId)}
-                        className="w-full mt-4 bg-purple-600 text-white font-semibold py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+                        className="w-full py-2 mt-4 font-semibold text-white transition duration-300 bg-purple-600 rounded-lg hover:bg-purple-700"
                       >
                         Details
                       </button>

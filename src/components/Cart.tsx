@@ -9,6 +9,7 @@ import PaymentProvider from "../apps/payment/di/PaymentProvider";
 import { useAppSelector } from "../apps/store/store";
 import { selectUserId } from "../apps/auth/application/slice/AuthSlice";
 import { BASE_URL } from "../configs/config";
+import Loading from "./Loading";
 
 interface CartItem {
   productId: string;
@@ -65,11 +66,12 @@ function Cart() {
 
   if (loading) {
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
-            <p className="text-xl font-semibold text-gray-700 animate-pulse">
-                Loading...
-            </p>
-        </div>
+        // <div className="flex items-center justify-center h-screen bg-gray-100">
+        //     <p className="text-xl font-semibold text-gray-700 animate-pulse">
+        //         Loading...
+        //     </p>
+        // </div>
+        <Loading />
     );
 }
 
@@ -141,41 +143,41 @@ function Cart() {
   return (
     <>
       <Header />
-      <div className="flex top-0  w-full justify-evenly z-10 items-center text-black">
+      <div className="top-0 z-10 flex items-center w-full text-black justify-evenly">
         <img
-          className="w-11/12 justify-evenly z-0 items-center"
+          className="z-0 items-center w-11/12 justify-evenly"
           src={topImage}
           alt="top image"
         />
       </div>
-      <div className="w-full bg-gray-50 -mt-36 mb-10 rounded-3xl border z-30  h-max flex justify-evenly items-center">
-        <div className="flex flex-col md:flex-row  p-20 w-full sm:w-10/12 justify-between items-center mt-36 bg-gray-50 ">
-          <div className=" flex flex-col  w-full md:w-1/2 bg-gray-50">
-            <h3 className="flex items-center text-2xl font-bold m-2">
+      <div className="z-30 flex items-center w-full mb-10 border bg-gray-50 -mt-36 rounded-3xl h-max justify-evenly">
+        <div className="flex flex-col items-center justify-between w-full p-20 md:flex-row sm:w-10/12 mt-36 bg-gray-50 ">
+          <div className="flex flex-col w-full md:w-1/2 bg-gray-50">
+            <h3 className="flex items-center m-2 text-2xl font-bold">
               <ArrowLeftIcon
-                className="h-6 w-8 mr-2"
+                className="w-8 h-6 mr-2"
                 onClick={handleBackClick}
               />
               Back to shopping
             </h3>
             <hr className="border-gray-400" />
-            <h2 className="text-2xl font-bold m-2">Shopping Cart</h2>
-            <h4 className="text-2xl font-bold m-2">
+            <h2 className="m-2 text-2xl font-bold">Shopping Cart</h2>
+            <h4 className="m-2 text-2xl font-bold">
               You have {cartItems.length} items in your cart
             </h4>
             <div className="overflow-y-auto h-96">
               {cartItems.map((item) => (
                 <>
-                  <div className="flex flex-col  justify-evenly items-center">
-                    <div className="flex flex-row m-2 py-5 rounded bg-gray-200 shadow-lg w-full justify-between items-center">
-                      <div className="flex w-3/12 justify-evenly items-center ">
+                  <div className="flex flex-col items-center justify-evenly">
+                    <div className="flex flex-row items-center justify-between w-full py-5 m-2 bg-gray-200 rounded shadow-lg">
+                      <div className="flex items-center w-3/12 justify-evenly ">
                         <img
-                          className="w-11/12  rounded-lg"
+                          className="w-11/12 rounded-lg"
                           src={item.img}
                           alt=""
                         />
                       </div>
-                      <div className="flex   flex-col  justify-evenly items-center text-black  font-bold">
+                      <div className="flex flex-col items-center font-bold text-black justify-evenly">
                         <div className="text-start">
                           <h3>{item.name}</h3>
                           <h3>{item.description}</h3>
@@ -183,12 +185,12 @@ function Cart() {
                         <button
                           type="button"
                           onClick={() => handleDelete(ownerId, item.productId)}
-                          className="bg-gray-100 w-7 h-10"
+                          className="h-10 bg-gray-100 w-7"
                         >
-                          <ArchiveBoxXMarkIcon className="h-9 w-6" />
+                          <ArchiveBoxXMarkIcon className="w-6 h-9" />
                         </button>
                       </div>
-                      <div className="flex  mr-5 flex-col">
+                      <div className="flex flex-col mr-5">
                         <div className="flex flex-row text-black">
                           <button
                             onClick={() =>
@@ -232,7 +234,7 @@ function Cart() {
                             +
                           </button>
                         </div>
-                        <div className="mt-3 flex justify-evenly items-center ">
+                        <div className="flex items-center mt-3 justify-evenly ">
                           <div className="inline-block rounded bg-gray-200 px-4  text-md font-extrabold ml-1 mr-1 text-black shadow-[0_4px_9px_-4px_#3b71ca] ">
                             {item.price}
                           </div>
@@ -245,16 +247,16 @@ function Cart() {
             </div>
           </div>
 
-          <div className=" flex flex-col rounded-3xl h-full justify-evenly items-center  w-full md:w-1/2">
-            <div className="bg-primary flex flex-col rounded-3xl justify-evenly items-center   w-full sm:w-11/12 ">
-              <div className="flex flex-col  text-white justify-evenly text-center pt-8 items-center">
-                <div className="flex flex-row w-full gap-9 font-bold text-lg ">
+          <div className="flex flex-col items-center w-full h-full rounded-3xl justify-evenly md:w-1/2">
+            <div className="flex flex-col items-center w-full bg-primary rounded-3xl justify-evenly sm:w-11/12 ">
+              <div className="flex flex-col items-center pt-8 text-center text-white justify-evenly">
+                <div className="flex flex-row w-full text-lg font-bold gap-9 ">
                   <div className="flex flex-col w-1/2">
                     <div className="flex ">Sub Total</div>
                     <div className="flex ">Delivery</div>
                     <div className="flex ">Total(incl.taxes)</div>
                   </div>
-                  <div className="flex flex-col  w-1/2">
+                  <div className="flex flex-col w-1/2">
                     <div className="flex">{totalAmount.toFixed(2)} Birr</div>
                     <div className="flex">{deliveryFee.toFixed(2)} Birr</div>
                     <div className="flex">
@@ -265,9 +267,9 @@ function Cart() {
                   </div>
                 </div>
 
-                <div className="mt-9 mb-10 text-center rounded-lg  text-black font-bold text-xl  w-11/12">
+                <div className="w-11/12 mb-10 text-xl font-bold text-center text-black rounded-lg mt-9">
                   <button
-                    className="  bg-slate-100 text-center p-2 rounded-lg w-11/12"
+                    className="w-11/12 p-2 text-center rounded-lg bg-slate-100"
                     onClick={handleCheckout}
                   >
                     Check Out

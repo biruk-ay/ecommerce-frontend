@@ -5,6 +5,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 import { BASE_URL } from "../configs/config";
+import Loading from "./Loading";
 
 function Category() {
   const navigate = useNavigate();
@@ -79,11 +80,12 @@ function Category() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <p className="text-xl font-semibold text-gray-700 animate-pulse">
-          Loading...
-        </p>
-      </div>
+      // <div className="flex items-center justify-center h-screen bg-gray-100">
+      //   <p className="text-xl font-semibold text-gray-700 animate-pulse">
+      //     Loading...
+      //   </p>
+      // </div>
+      <Loading />
     );
   }
   const handleBackClick = () => {
@@ -95,13 +97,13 @@ function Category() {
   return (
     <div>
       <Header />
-      <div className="container mx-auto px-4">
-        <h1 className="text-center font-heading text-3xl sm:text-4xl md:text-6xl mt-10">
-          <ArrowLeftIcon className="h-6 w-8 mr-2" onClick={handleBackClick} />
+      <div className="container px-4 mx-auto">
+        <h1 className="mt-10 text-3xl text-center font-heading sm:text-4xl md:text-6xl">
+          <ArrowLeftIcon className="w-8 h-6 mr-2" onClick={handleBackClick} />
           {selectedOption} Products
         </h1>
-        <div className="flex flex-col md:flex-row mt-10 justify-between gap-5">
-          <div className="md:hidden sticky top-0 w-full  ">
+        <div className="flex flex-col justify-between gap-5 mt-10 md:flex-row">
+          <div className="sticky top-0 w-full md:hidden ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -122,7 +124,7 @@ function Category() {
               showPanel ? "" : "hidden md:block"
             }`}
           >
-            <h2 className="text-2xl font-bold mb-4">Adjust Price</h2>
+            <h2 className="mb-4 text-2xl font-bold">Adjust Price</h2>
             <input
               type="range"
               min="0"
@@ -136,8 +138,8 @@ function Category() {
             <ul>
               {["Brand A", "Brand B", "Brand C"].map((brand, index) => (
                 <li key={index}>
-                  <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                    <input type="checkbox" className="h-4 w-4" />
+                  <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                    <input type="checkbox" className="w-4 h-4" />
                     <span className="text-sm">{brand}</span>
                   </div>
                 </li>
@@ -147,8 +149,8 @@ function Category() {
             <ul>
               {["Seller X", "Seller Y", "Seller Z"].map((seller, index) => (
                 <li key={index}>
-                  <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                    <input type="checkbox" className="h-4 w-4" />
+                  <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                    <input type="checkbox" className="w-4 h-4" />
                     <span className="text-sm">{seller}</span>
                   </div>
                 </li>
@@ -159,8 +161,8 @@ function Category() {
               {["Category 1", "Category 2", "Category 3"].map(
                 (category, index) => (
                   <li key={index}>
-                    <div className="flex items-center space-x-2 rounded p-2 hover:bg-gray-100">
-                      <input type="checkbox" className="h-4 w-4" />
+                    <div className="flex items-center p-2 space-x-2 rounded hover:bg-gray-100">
+                      <input type="checkbox" className="w-4 h-4" />
                       <span className="text-sm">{category}</span>
                     </div>
                   </li>
@@ -169,31 +171,31 @@ function Category() {
             </ul>
           </div>
 
-          <div className="md:w-2/3 lg:w-3/4 py-1 w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid w-full grid-cols-1 gap-6 py-1 mx-auto md:w-2/3 lg:w-3/4 md:grid-cols-2 lg:grid-cols-3">
             {filteredItems.length > 0 ? (
               filteredItems.map((product) => (
                 <div
                   key={product.productId}
-                  className="bg-white shadow-lg rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105"
+                  className="overflow-hidden transition-transform duration-300 bg-white shadow-lg rounded-xl hover:scale-105"
                 >
                   <img
-                    className="w-full h-48 object-cover"
+                    className="object-cover w-full h-48"
                     src={product.img}
                     alt={product.name}
                   />
                   <div className="p-4">
-                    <h1 className="font-semibold text-lg text-gray-800 hover:text-indigo-600 transition duration-300">
+                    <h1 className="text-lg font-semibold text-gray-800 transition duration-300 hover:text-indigo-600">
                       {product.name}
                     </h1>
-                    <p className="text-gray-600 text-sm mt-1">
+                    <p className="mt-1 text-sm text-gray-600">
                       {product.description}
                     </p>
-                    <h2 className="text-gray-800 text-lg mt-2 font-bold">
+                    <h2 className="mt-2 text-lg font-bold text-gray-800">
                       ${product.price.toFixed(2)}
                     </h2>
                     <button
                       onClick={() => handleProductClick(product.productId)}
-                      className="w-full mt-4 bg-purple-600 text-white font-semibold py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+                      className="w-full py-2 mt-4 font-semibold text-white transition duration-300 bg-purple-600 rounded-lg hover:bg-purple-700"
                     >
                       Details
                     </button>

@@ -4,7 +4,6 @@ import AuthState from "../states/AuthState";
 import AuthProvider from "../../di/authProvider";
 import SMStatus from "../../../../lib/sm/state/smStatus";
 import type { RootState } from "../../../store/store";
-import exp from "constants";
 
 
 const initialState: AuthState = {
@@ -120,3 +119,4 @@ export const selectUserName = (state: RootState) => state.auth.name;
 export const selectUserToken = (state: RootState) => state.auth.token;
 export const selectUserRole = (state: RootState) => state.auth.role;
 export const selectUserId = (state: RootState) => state.auth.id;
+export const selectLoading = (state: RootState) => state.auth.status

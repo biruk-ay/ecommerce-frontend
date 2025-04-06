@@ -3,11 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../apps/store/store";
 import {
   logout,
+  selectLoading,
   selectUserName,
   selectUserRole,
 } from "../apps/auth/application/slice/AuthSlice";
 import cartIcon from "../assets/Icon.svg";
 import searchIcon from "../assets/search-svgrepo-com.svg"
+import SMStatus from "../lib/sm/state/smStatus";
+import Loading from "./Loading";
 
 const Header = () => {
   enum UserType {
@@ -18,10 +21,11 @@ const Header = () => {
   const [showPanel, setShowPanel] = useState(false);
   const username = useAppSelector(selectUserName);
   const role = useAppSelector(selectUserRole);
+  const loading = useAppSelector(selectLoading);
   const dispatch = useAppDispatch();
-  const handleLogout = (evt: React.FormEvent) => {
+  const handleLogout = async(evt: React.FormEvent) => {
     evt.preventDefault();
-    dispatch(logout());
+    await dispatch(logout());
     navigator("/user/login");
   };
   const handleToggle = () => {
@@ -33,9 +37,12 @@ const Header = () => {
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
     if (searchTerm) {
-      navigate(`/search?term=${encodeURIComponent(searchTerm)}`); // Navigate to search results page
+      navigate(`/search?term=${encodeURIComponent(searchTerm)}`);
     }
   };
+
+  if(loading === SMStatus.loading) return <Loading />
+  
   return (
     <header className="top-0 flex items-center w-full text-white bg-primary justify-evenly">
       <div className="flex flex-col justify-between">
@@ -88,7 +95,7 @@ const Header = () => {
                 Logout
               </button>
               <Link to={"/cart"}>
-                <img className="hover:underline" src={cartIcon}></img>{" "}
+                <img className="ml-8 hover:underline" src={cartIcon}></img>{" "}
               </Link>
             </>
           ) : (
